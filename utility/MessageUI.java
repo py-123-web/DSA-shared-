@@ -3,7 +3,7 @@ package utility;
 
 /**
  *
- * @author syhor
+ * @author pyhor
  */
 public class MessageUI {
    
