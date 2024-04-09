@@ -1,0 +1,523 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package boundary;
+
+import adt.SortedArrayList;
+import java.util.Scanner;
+import entity.Tutor;
+import dao.CourseTutorInitializer;
+import entity.Course;
+import entity.TutorialGroup;
+import java.util.Iterator;
+import utility.MessageUI;
+import adt.ListInterface;
+
+/**
+ *
+ * @author User
+ */
+public class TutorMaintenanceUI {
+
+    Scanner scanner = new Scanner(System.in);
+    private ListInterface<TutorialGroup> tList = new SortedArrayList<>();
+    private CourseTutorInitializer ctI = new CourseTutorInitializer();
+
+    public Tutor tutor = new Tutor();
+
+    public static int getMenu() {
+        Scanner scanner = new Scanner(System.in);
+        int choice = -1;
+        while (true) {
+            System.out.println("");
+            System.out.println("+===================================+");
+            System.out.println("|    Teaching Assginment Subsystem  |");
+            System.out.println("+===================================+");
+            System.out.println("|1.Manage Tutor                     |");
+            System.out.println("|2.Assignment                       |");
+            System.out.println("|3.Searching                        |");
+            System.out.println("|4.Listing                          |");
+            System.out.println("|5.Filter                           |");
+            System.out.println("|6.Generate Report                  |");
+            System.out.println("|0.Exit Menu                        |");
+            System.out.println("+===================================+");
+            System.out.print("Enter your choice : ");
+            try {
+                choice = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException ex) {
+                MessageUI.displayInvalidChoiceMessage();
+            }
+            return choice;
+        }
+    }
+
+    public static int manageTutorMenu() {
+        Scanner scanner = new Scanner(System.in);
+        int choice = -1;
+        while (true) {
+            System.out.println("");
+            System.out.println("+===================================+");
+            System.out.println("|    Manage Tutor                   |");
+            System.out.println("+===================================+");
+            System.out.println("|1. Add Tutor                       |");
+            System.out.println("|2. List Tutor                      |");
+            System.out.println("|0.Exit Menu                        |");
+            System.out.println("+===================================+");
+            System.out.print("Enter your choice : ");
+            try {
+                choice = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException ex) {
+                MessageUI.displayInvalidChoiceMessage();
+            }
+            return choice;
+        }
+    }
+
+    public static int assignmentMenu() {
+        Scanner scanner = new Scanner(System.in);
+        int option = -1;
+        while (true) {
+            System.out.println("");
+            System.out.println("+===================================+");
+            System.out.println("|    Assign Tutor                   |");
+            System.out.println("+===================================+");
+            System.out.println("|1. Assign Tutor To Course          |");
+            System.out.println("|2. Assign Tutorial Group To Tutor  |");
+            System.out.println("|0.Exit Menu                        |");
+            System.out.println("+===================================+");
+            System.out.print("Enter your option : ");
+
+            try {
+                option = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException ex) {
+                MessageUI.displayInvalidChoiceMessage();
+            }
+            return option;
+        }
+    }
+
+    public static int searchingMenu() {
+        Scanner scanner = new Scanner(System.in);
+        int option = -1;
+        while (true) {
+            System.out.println("");
+            System.out.println("+===================================+");
+            System.out.println("|    Search Tutor                   |");
+            System.out.println("+===================================+");
+            System.out.println("|1. Search Course under a Tutor     |");
+            System.out.println("|2. Search Tutors for a Course      |");
+            System.out.println("|0.Exit Menu                        |");
+            System.out.println("+===================================+");
+            System.out.print("Enter your option : ");
+
+            try {
+                option = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException ex) {
+                MessageUI.displayInvalidChoiceMessage();
+            }
+            return option;
+        }
+    }
+
+    public static int listingMenu() {
+        Scanner scanner = new Scanner(System.in);
+        int option = -1;
+        while (true) {
+            System.out.println("");
+            System.out.println("+================================================+");
+            System.out.println("|                     List                       |");
+            System.out.println("+================================================+");
+            System.out.println("|1. List tutors and tutorial groups for a course |");
+            System.out.println("|2. List courses for each tutor                  |");
+            System.out.println("|0.Exit Menu                                     |");
+            System.out.println("+================================================+");
+            System.out.print("Enter your option : ");
+
+            try {
+                option = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException ex) {
+                MessageUI.displayInvalidChoiceMessage();
+            }
+            return option;
+        }
+    }
+
+    public static int filteringMenu() {
+        Scanner scanner = new Scanner(System.in);
+        int option = -1;
+        while (true) {
+            System.out.println("");
+            System.out.println("+===================================+");
+            System.out.println("|            Filter                 |");
+            System.out.println("+===================================+");
+            System.out.println("|1. Filter by name                  |");
+            System.out.println("|2. Filter by gender                |");
+            System.out.println("|3. Filter by category              |");
+            System.out.println("|0.Exit Menu                        |");
+            System.out.println("+===================================+");
+            System.out.print("Enter your option : ");
+
+            try {
+                option = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException ex) {
+                MessageUI.displayInvalidChoiceMessage();
+            }
+            return option;
+        }
+    }
+
+    public void listAllTutor() {
+        // Print header and separator
+        System.out.println("Tutor Details");
+        System.out.println("═════════");
+        System.out.printf("%-7s %-30s %-7s %-15s %-30s\n", "Id", "Name", "Gender", "Category", "Email");
+
+        // Assuming ctI.getTutorList() returns an up-to-date and initialized list of tutors
+        Iterator<Tutor> iterator = ctI.getTutorList().getIterator();
+        if (!iterator.hasNext()) {
+            System.out.println("No tutors available.");
+            return; // Early exit if there are no tutors to display
+        }
+        while (iterator.hasNext()) {
+            Tutor tutor = iterator.next();
+            System.out.printf(" %-7s %-30s %-7c %-15s %-30s\n",
+                    tutor.getTutorId(),
+                    tutor.getTutorName(),
+                    tutor.getTutorGender(),
+                    tutor.getTutorCategory(),
+                    tutor.getTutorEmail());
+        }
+    }
+
+    public String courseCodeUI() {
+
+        String courseCode;
+        do {
+            System.out.print("Enter course code (press 'x' to cancel): ");
+            courseCode = scanner.nextLine().trim().toUpperCase();
+            if (courseCode.equalsIgnoreCase("x")) {
+                return null; // User canceled input
+            }
+            if (courseCode.isEmpty()) {
+                System.out.println("Course code cannot be empty. Please try again or press 'x' to cancel.");
+            } else if (!Character.isLetter(courseCode.charAt(0))) {
+                System.out.println("Course code must start with a letter. Please try again or press 'x' to cancel.");
+            }
+        } while (courseCode.isEmpty() || !Character.isLetter(courseCode.charAt(0)));
+        return courseCode;
+    }
+
+    public String tutorIdUI() {
+        String[] tutorStr = {"T0001","T0002","T0003","T0004","T0005"};
+        String tutorId;
+        do {
+            System.out.print("Enter tutor id (press 'x' to cancel): ");
+            tutorId = scanner.nextLine().trim().toUpperCase();
+            
+            if (tutorId.equalsIgnoreCase("x")) {
+                return null; // User canceled input
+            }
+            if (tutorId.isEmpty()) {
+                System.out.println("Tutor ID cannot be empty. Please try again or press 'x' to cancel.");
+            } else if (tutorId.length() != 5) {
+                System.out.println("Tutor ID must be at least 5 characters long. Please try again.");
+            }
+            if(tutorId.equals(ctI.getTutorList().getIterator())){
+            System.out.println("Tutor Founded");
+            break;
+            }
+           
+            
+        } while (tutorId.isEmpty() || tutorId.length() != 5);
+        return tutorId;
+
+    }
+
+//     public Course addNewTutor() {
+//        System.out.println("\nAdd New Course");
+//        System.out.println("=====================");
+//
+//        String courseCode = courseCodeUI();
+//        if (courseCode == null) {
+//            return null; // User canceled input
+//        }
+//
+//        String courseName = courseNameUI();
+//        if (courseName == null) {
+//            return null; // User canceled input
+//        }
+//
+//        Double creditHours = creditHoursUI();
+//        if (creditHours == -1.0) {
+//            return null; // User canceled input
+//        }
+//
+//        System.out.println("======================");
+//        return new Course(courseCode, courseName, creditHours);
+//    }
+//
+//        public boolean confirmAction(String message) {
+//        String input;
+//        boolean validInput = false;
+//
+//        do {
+//            System.out.print(message + " (y/n): ");
+//            input = scanner.nextLine().trim().toLowerCase();
+//            if (input.equals("y") || input.equals("n")) {
+//                validInput = true;
+//            } else {
+//                System.out.println("Invalid input. Please enter 'y' or 'n'.");
+//            }
+//        } while (!validInput);
+//
+//        return input.equals("y");
+//    }
+    public Tutor inputTutorDetails() {
+        String tutorId = inputTutorID().toUpperCase();
+        String tutorName = inputTutorName().toUpperCase();
+        String tutorEmail = inputTutorEmail();
+        Character tutorGender = inputGender();
+        String tutorCategory = inputCategory();
+
+        if (tutorGender == 'M') {
+            tutorName = "MR " + tutorName;
+        } else {
+            tutorName = "MS " + tutorName;
+        }
+        System.out.println();
+        return new Tutor(tutorId, tutorName, tutorEmail, tutorGender, tutorCategory);
+
+    }
+
+    public String inputTutorID() {
+        String id;
+        boolean isValid = false;
+
+        do {
+            System.out.print("Enter Tutor ID: ");
+            id = scanner.nextLine().trim().toUpperCase();
+
+            if (id.isEmpty()) {
+                System.out.println("Tutor ID cannot be empty. Please try again.");
+            } else if (id.charAt(0) != 'T') {
+                System.out.println("Tutor ID must start with 'T'. Please try again.");
+            } else if (id.length() != 5) {
+                System.out.println("Tutor ID must be exactly 5 characters long. Please try again.");
+            } else if (!Character.isDigit(id.charAt(1)) || !Character.isDigit(id.charAt(2))
+                    || !Character.isDigit(id.charAt(3)) || !Character.isDigit(id.charAt(4))) {
+                System.out.println("The last 4 characters of Tutor ID must be digits. Please try again.");
+            } else {
+                isValid = true;
+            }
+
+        } while (!isValid);
+
+        return id;
+    }
+
+    public String inputTutorEmail() {
+        String email;
+        boolean isValid = false;
+
+        do {
+            System.out.print("Enter Tutor Email: ");
+            email = scanner.nextLine().trim();
+
+            if (email.isEmpty()) {
+                System.out.println("Email cannot be empty. Please try again.");
+            } else if (!email.contains("@")) {
+                System.out.println("Email must contain '@'. Please enter a valid email.");
+            } else if (!email.contains(".com")) {
+                System.out.println("Email must contain '.com'. Please enter a valid email.");
+            } else {
+
+                isValid = true;
+            }
+            //      String email;
+//        do {
+//            System.out.print("Enter Email : ");
+//            email = scanner.nextLine();
+//            if (checkEmail(email) == Error.DUPLICATE) {
+//                System.err.println("Duplicate email, Please enter again.");
+//            }
+//        } while (checkEmail(email) == Error.DUPLICATE);
+//        return email;
+        } while (!isValid);
+
+        return email;
+    }
+
+    public String inputTutorName() {
+        String name;
+        boolean isValid = false;
+
+        do {
+            System.out.print("Enter Tutor Name: ");
+            name = scanner.nextLine().trim();
+
+            if (name.isEmpty()) {
+                System.out.println("Name cannot be empty. Please try again.");
+            } else if (containsDigit(name)) {
+                System.out.println("Name cannot contain digits. Please enter a valid name.");
+            } else if (!containsOnlyAlphabetic(name)) {
+                System.out.println("Name must contain only alphabetic characters. Please enter a valid name.");
+            } else {
+                isValid = true;
+            }
+        } while (!isValid);
+
+        return name.toUpperCase();
+    }
+
+    private boolean containsOnlyAlphabetic(String str) {
+        return str.matches("[a-zA-Z\\s]+");
+    }
+
+    private boolean containsDigit(String str) {
+        for (char c : str.toCharArray()) {
+            if (Character.isDigit(c)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Character inputGender() {
+        Character gender = null; // Initialize with a default value
+        boolean isValid = false;
+
+        do {
+            System.out.print("Gender [M/F] : ");
+            String input = scanner.nextLine().trim().toUpperCase();
+
+            if (input.isEmpty()) {
+                System.out.println("Gender cannot be empty. Please try again.");
+            } else if (input.length() > 1 || !Character.isLetter(input.charAt(0))) {
+                System.out.println("Invalid input. Please enter 'M' for Male or 'F' for Female.");
+            } else {
+                gender = input.charAt(0);
+                if (gender == 'M' || gender == 'F') {
+                    isValid = true;
+                } else {
+                    System.out.println("Invalid input. Please enter 'M' for Male or 'F' for Female.");
+                }
+            }
+        } while (!isValid);
+
+        return gender;
+    }
+
+    /*  private boolean isValidPhoneNumber(String phoneNumber) {
+        phoneNumber = phoneNumber.replaceAll("\\s", "");
+
+        if (phoneNumber.matches("[0-9]+") && phoneNumber.length() >= 10 && phoneNumber.length() <= 11) {
+            return true;
+        }
+        return false;
+    }
+     */
+    public String inputCategory() {
+        String outputStr = "";
+        boolean isValid = false;
+
+        while (!isValid) {
+            try {
+                System.out.print("Enter Type (1=Part Time/2=Full Time): ");
+                String input = scanner.nextLine().trim();
+
+                if (input.isEmpty()) {
+                    System.out.println("Input cannot be empty. Please try again.");
+                    continue; // Skip the rest of the loop and prompt again
+                }
+
+                int type = Integer.parseInt(input);
+
+                if (type == 1 || type == 2) {
+                    outputStr = (type == 1) ? "Part Time" : "Full Time";
+                    isValid = true;
+                } else {
+                    MessageUI.displayInvalidChoiceMessage();
+                }
+            } catch (NumberFormatException e) {
+                MessageUI.displayInvalidChoiceMessage();
+            }
+        }
+
+        return outputStr;
+    }
+
+    public boolean confirmAction(String message) {
+        String input;
+        boolean validInput = false;
+
+        do {
+            System.out.print("Confirm your Operation? (1=YES/2=NO): ");
+            input = scanner.nextLine().trim().toLowerCase();
+            if (input.equals("y") || input.equals("n")) {
+                validInput = true;
+            } else {
+                System.out.println("Invalid input. Please enter 'y' or 'n'.");
+            }
+        } while (!validInput);
+
+        return input.equals("y");
+    }
+
+    public String getAllTutor() {
+        String outputStr = "";
+        ListInterface<Tutor> tutorList = ctI.getTutorList();
+        Iterator<Tutor> iterator = tutorList.getIterator();
+        while (iterator.hasNext()) {
+            Tutor tutor = iterator.next();
+            outputStr += tutor.getTutorId() + "\t"
+                    + tutor.getTutorName() + "\t"
+                    + tutor.getTutorGender() + "\t"
+                    + tutor.getTutorCategory() + "\t"
+                    + tutor.getTutorEmail() + "\n";
+        }
+        return outputStr;
+    }
+
+//    public int addTutorialGroupToTutor(Tutor[] tutorArray, TutorialGroup tutorialGroup) {
+//        Scanner scanner = new Scanner(System.in);
+//        System.out.println("Enter the index of the tutor to assign the tutorial group to:");
+//        int tutorIndex = scanner.nextInt();
+//
+//        // Validate tutorIndex
+//        if (tutorIndex < 0 || tutorIndex >= tutorArray.length) {
+//            System.out.println("Invalid tutor index.");
+//            return -1;
+//        }
+//
+//        Tutor selectedTutor = tutorArray[tutorIndex];
+//
+//        // Assuming Tutor class has a method to add tutorial groups
+//         selectedTutor.addTutorialGroup(tutorialGroup);
+//
+//        return tutorIndex;
+//    }
+//    
+//    public void addTutorialGroup(TutorialGroup[] groups, TutorialGroup groupToAdd) {
+//    // Find the first empty slot in the array
+//    int index = 0;
+//    while (index < groups.length && groups[index] != null) {
+//        index++;
+//    }
+//
+//    // Check if there is space in the array
+//    if (index < groups.length) {
+//        // Add the group to the array
+//        groups[index] = groupToAdd;
+//        System.out.println("Tutorial group added successfully.");
+//    } else {
+//        System.out.println("No space available to add tutorial group.");
+//    }
+//}
+//
+//    public String inputSearchDetails() {
+//        System.out.print("Enter Tutor ID or Name: ");
+//        String id = scanner.nextLine();
+//        return id.toUpperCase();
+//    }
+}
