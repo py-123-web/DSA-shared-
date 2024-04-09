@@ -12,10 +12,10 @@ import java.util.Iterator;
  */
 public class CourseTutorInitializer {
 
-    private SortedArrayListInterface<Tutor> tutorList;
+    private SortedListInterface<Tutor> tutorList;
    
-    private SortedArrayListInterface<Course> cList = new SortedArrayList<>();
-    private SortedArrayListInterface<TutorialGroup> tGList = new SortedArrayList<>();
+    private SortedListInterface<Course> cList = new SortedArrayList<>();
+    private SortedListInterface<TutorialGroup> tGList = new SortedArrayList<>();
     private Tutor tutor;
     private Course course;
 
