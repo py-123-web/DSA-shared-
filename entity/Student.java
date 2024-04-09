@@ -5,7 +5,7 @@ import java.util.Objects;
 
 /**
  *
- * @author LWY, Low Jia Yu
+ * @author Lee Weng Yan
  */
 
 public class Student implements Comparable<Student> {
