@@ -8,7 +8,7 @@ import java.util.Iterator;
 
 /**
  *
- * @author User
+ * @author Khong Shu Yen
  */
 public class CourseTutorInitializer {
 
