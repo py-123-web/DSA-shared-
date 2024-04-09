@@ -6,14 +6,14 @@ import java.util.Iterator;
 /**
  * MODIFIED
  *
- * SortedArrayList - Implements the ADT Sorted List using an array.
- * - Note: Some methods are not implemented yet and have been left as practical exercises
+ * SortedArrayList - Implements the ADT Sorted List using an array. - Note: Some
+ * methods are not implemented yet and have been left as practical exercises
  */
 public class SortedArrayList<T extends Comparable<T>> implements SortedListInterface<T>, Serializable {
 
     private T[] array;
     private int numberOfEntries;
-    private static final int DEFAULT_CAPACITY = 25;
+    private static final int DEFAULT_CAPACITY = 30;
 
     public SortedArrayList() {
         this(DEFAULT_CAPACITY);
@@ -23,9 +23,17 @@ public class SortedArrayList<T extends Comparable<T>> implements SortedListInter
         numberOfEntries = 0;
         array = (T[]) new Comparable[initialCapacity];
     }
+    
+    public T getEntry(int index) {
+        if (index >= 0 && index < numberOfEntries) {
+            return array[index];
+        } else {
+            throw new IndexOutOfBoundsException("Index is out of bounds.");
+        }
+    }
 
     @Override
-    public boolean add(T newEntry) {
+    public boolean add(T newEntry) { //used
 
         if (isArrayFull()) {
             doubleArray();
@@ -90,34 +98,26 @@ public class SortedArrayList<T extends Comparable<T>> implements SortedListInter
         return null;
     }
 
-     @Override 
-    public boolean contains(T anEntry) { //use for searching 
-//    boolean found = false;
-//    for (int index = 0; !found && (index < numberOfEntries); index++) {
-//      if (anEntry.equals(array[index])) {
-//        found = true;
-//      }
-//    }
-//    return found;
+    @Override
+    public boolean contains(T anEntry) {
 
-    int i=0;
-    while(i < numberOfEntries && anEntry.compareTo(array[i])>0){ //(anEntry.equals(array[i])
-        i++;
+        int i = 0;
+        while (i < numberOfEntries && anEntry.compareTo(array[i]) > 0) { //(anEntry.equals(array[i])
+            i++;
+        }
+
+        if (anEntry.compareTo(array[i]) == 0) {
+            return true;
+        }
+        return false;
+
     }
 
-    if (anEntry.compareTo(array[i])==0){
-        return true;
-    }
-    return false;
-
-  }
-
-    
     public int getNumberOfEntries() {
         return numberOfEntries;
     }
 
-    public boolean isEmpty() {
+    public boolean isEmpty() { //used
         return numberOfEntries == 0;
     }
 
@@ -145,7 +145,7 @@ public class SortedArrayList<T extends Comparable<T>> implements SortedListInter
         }
     }
 
-    private void makeRoom(int newPosition) {
+    private void makeRoom(int newPosition) { //used
         int newIndex = newPosition - 1;
         int lastIndex = numberOfEntries - 1;
 
@@ -187,5 +187,7 @@ public class SortedArrayList<T extends Comparable<T>> implements SortedListInter
         }
 
     }
+    
+    
 
 }
