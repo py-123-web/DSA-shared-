@@ -1,0 +1,183 @@
+//package dao;
+//
+//import adt.ArrayList;
+//import adt.SortedArrayList;
+//import entity.Programme;
+//import entity.Student;
+//import entity.TutorialGrp;
+//import java.util.Iterator;
+//import java.util.ListInterface;
+//
+//public class ProgrammeInitializer {
+//    public static SortedArrayList<Programme> programmeList = new SortedArrayList<>();
+//
+//    static {
+//        // Add programmes to programmeList
+//         ListInterface<Programme> focs = new ArrayList<>();
+//        programmeList.add(new Programme("RSW", "Bachelor of Software Engineering"));
+//        programmeList.add(new Programme("RIT", "Bachelor of Information Technology"));
+//        programmeList.add(new Programme("RID", "Bachelor of Interactive Design"));
+//        programmeList.add(new Programme("DCS", "Diploma in Computer Science"));
+//        ListInterface<Programme> fobb = new ArrayList<>();
+//        programmeList.add(new Programme("DAC", "Diploma in Accounting"));
+//        programmeList.add(new Programme("DMI", "Diploma in Marketing"));
+//        programmeList.add(new Programme("DBF", "Diploma in Banking and Finance"));
+//        programmeList.add(new Programme("RFN", "Bachelor of Finance"));
+//         ListInterface<Programme> foee = new ArrayList<>();
+//        programmeList.add(new Programme("RMT", "Bachelor of Mechatronics Engineering"));
+//        programmeList.add(new Programme("RMN", "Bachelor of Mechanical Engineering"));
+//        programmeList.add(new Programme("DEE", "Diploma of Electronic Engineering"));
+//
+//        programmeList.add(focs);
+//        programmeList.add(fobb);
+//        programmeList.add(foee);
+//        
+//        facultyList.put("FAFB", focs);
+//        facultyList.put("FOBB", fobb);
+//        facultyList.put("FOET", foee);
+//        
+//        // Assume StudentDAO and studentList are defined elsewhere and accessible
+//        Iterator<Student> studId = StudentDAO.studentList.getIterator();
+//
+//        int max = 3, min = 1, grpmin = 8, grpmax = 15;
+//        for (int i = 0; i < programmeList.size(); i++) {
+//            int groupSize = (int) Math.floor(Math.random() * (max - min + 1) + min);
+//            for (int j = 0; j < groupSize; j++) {
+//                programmeList.get(i).addGroup();
+//                TutorialGroup last = programmeList.get(i).getGroup().get(-1);
+//                int num = (int) Math.floor(Math.random() * (grpmax - grpmin + 1) + grpmin);
+//                for (int k = 0; k < num && studIt.hasNext(); k++) {
+//                    last.addStudent(studIt.next());
+//                }
+//            }
+//        }
+//    }
+//}
+
+//package dao;
+//
+//import adt.*;
+//import entity.Programme;
+//
+//public class ProgrammeInitializer {
+//    private ArrayList<ListInterface<Programme>> programmeList; // Change to store lists of Programme
+//    private HashMap<String, ListInterface<Programme>> facultyList;
+//
+//    public ProgrammeInitializer() {
+//        this.programmeList = new ArrayList<>();
+//        this.facultyList = new HashMap<>();
+//    }
+//
+//    public void insertSampleData() {
+//        ListInterface<Programme> focs = new ArrayList<>();
+//        focs.add(new Programme("RSW", "Bachelor of Software Engineering"));
+//        focs.add(new Programme("RIT", "Bachelor of Information Technology"));
+//        focs.add(new Programme("RID", "Bachelor of Interactive Design"));
+//        focs.add(new Programme("REI", "Bachelor of Information Systems"));
+//        programmeList.add(focs); // Add list of Programme to programmeList
+//
+//        ListInterface<Programme> fobb = new ArrayList<>();
+//        fobb.add(new Programme("DAC", "Diploma in Accounting"));
+//        fobb.add(new Programme("DMI", "Diploma in Marketing"));
+//        fobb.add(new Programme("DBF", "Diploma in Banking and Finance"));
+//        fobb.add(new Programme("RFN", "Bachelor of Finance"));
+//        programmeList.add(fobb); // Add another list of Programme to programmeList
+//
+//        ListInterface<Programme> foee = new ArrayList<>();
+//        foee.add(new Programme("RMT", "Bachelor of Mechatronics Engineering"));
+//        foee.add(new Programme("RMN", "Bachelor of Mechanical Engineering"));
+//        foee.add(new Programme("DEE", "Diploma of Electronic Engineering"));
+//        programmeList.add(foee); // Add another list of Programme to programmeList
+//
+//        facultyList.put("FAFB", focs);
+//        facultyList.put("FOBB", fobb);
+//        facultyList.put("FOET", foee);
+//    }
+//
+//    // Getters for accessing the lists if needed
+//
+//    public ArrayList<ListInterface<Programme>> getProgrammeList() {
+//        return programmeList;
+//    }
+//
+//    public HashMap<String, ListInterface<Programme>> getFacultyList() {
+//        return facultyList;
+//    }
+//    
+//    // Method to get all programmes from programmeList
+//    public ListInterface<Programme> getAllProgrammes() {
+//        ListInterface<Programme> allProgrammes = new ArrayList<>();
+//        for (ListInterface<Programme> programmeGroup : programmeList) {
+//            allProgrammes.add(programmeGroup);
+//        }
+//        return allProgrammes;
+//    }
+//}
+
+//package dao;
+//
+//import adt.*;
+//import entity.Programme;
+//
+//public class ProgrammeInitializer {
+//    public static SortedArrayList<Programme> programmeList = new SortedArrayList<>();
+//    public static SortedArrayList<Programme> facultyList = new SortedArrayList<>(); 
+//    
+//    public void insertSampleData() {
+//        SortedArrayList<Programme> focs = new SortedArrayList<>(); // Specify type arguments
+//        focs.add(new Programme("RSW", "Bachelor of Software Engineering"));
+//        focs.add(new Programme("RIT", "Bachelor of Information Technology"));
+//        focs.add(new Programme("RID", "Bachelor of Interactive Design"));
+//        focs.add(new Programme("REI", "Bachelor of Information Systems"));
+//        programmeList.add(focs); // Add list of Programme to programmeList
+//
+//        SortedArrayList<Programme> fobb = new SortedArrayList<>(); // Specify type arguments
+//        fobb.add(new Programme("DAC", "Diploma in Accounting"));
+//        fobb.add(new Programme("DMI", "Diploma in Marketing"));
+//        fobb.add(new Programme("DBF", "Diploma in Banking and Finance"));
+//        fobb.add(new Programme("RFN", "Bachelor of Finance"));
+//        programmeList.add(fobb); // Add another list of Programme to programmeList
+//
+//        SortedArrayList<Programme> foee = new SortedArrayList<>(); // Specify type arguments
+//        foee.add(new Programme("RMT", "Bachelor of Mechatronics Engineering"));
+//        foee.add(new Programme("RMN", "Bachelor of Mechanical Engineering"));
+//        foee.add(new Programme("DEE", "Diploma of Electronic Engineering"));
+//        programmeList.add(foee); // Add another list of Programme to programmeList    
+//    }
+//
+//    public SortedArrayList<Programme> getProgrammeList() {
+//        return programmeList;
+//    }
+//}
+package dao;
+import adt.*;
+import entity.*;
+/**
+ *
+ * @author USER LJY
+ */
+public class ProgrammeInitializer {
+    public static SortedArrayList<Programme> programmeList = new SortedArrayList<>(); 
+    
+    public void insertSampleData() { // Specify type arguments
+        // Specify type arguments
+        programmeList.add(new Programme("RSW", "Bachelor of Software Engineering"));
+        programmeList.add(new Programme("RIT", "Bachelor of Information Technology"));
+        programmeList.add(new Programme("RID", "Bachelor of Interactive Design"));
+        programmeList.add(new Programme("REI", "Bachelor of Information Systems"));
+        // Specify type arguments
+
+        programmeList.add(new Programme("DAC", "Diploma in Accounting"));
+        programmeList.add(new Programme("DMI", "Diploma in Marketing"));
+        programmeList.add(new Programme("DBF", "Diploma in Banking and Finance"));
+        programmeList.add(new Programme("RFN", "Bachelor of Finance"));
+        // Specify type arguments
+        programmeList.add(new Programme("RMT", "Bachelor of Mechatronics Engineering"));
+        programmeList.add(new Programme("RMN", "Bachelor of Mechanical Engineering"));
+        programmeList.add(new Programme("DEE", "Diploma of Electronic Engineering"));
+    }
+
+    public SortedArrayList<Programme> getProgrammeList() {
+        return programmeList;
+    }
+}
