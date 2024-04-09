@@ -1,0 +1,60 @@
+package boundary;
+
+import java.util.Scanner;
+import control.*;
+
+public class Main {
+    public static void main(String[] args) {
+        TutorialGroupManagement tutorialGroupSystem = new TutorialGroupManagement();
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+
+        do {
+            System.out.println("");
+            System.out.println("==============================");
+            System.out.println("+         TUTORIAL GROUP MENU                 +");
+            System.out.println("==============================");
+            System.out.println("+     1. Add New Tutorial Group               +");
+            System.out.println("+     2. Delete Tutorial Group                +");
+            System.out.println("+     3. Amend Tutorial Group                 +");
+            System.out.println("+     4. List All Tutorial Group              +");
+            System.out.println("+     5. Tutorial Group Report                +");
+            System.out.println("+     6. Add New Student in Tutorial Group    +");
+            System.out.println("+     7. Delete Student in Tutorial Group     +");
+            System.out.println("+     8. List All Student in Tutorial Group   +");
+            System.out.println("+     9. Student Tutorial Group Report        +");
+            System.out.println("+     0. Quit                                 +");
+            System.out.println("==============================");
+            System.out.print("\n Enter choice: ");
+
+            choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline character
+
+            switch (choice) {
+                case 1:
+                    tutorialGroupSystem.addTutorialGroup();
+                    break;
+                case 2:
+                    tutorialGroupSystem.deleteTutorialGrp();
+                    break;
+                case 3:
+                    tutorialGroupSystem.amendTutorialGroup();
+                    break;
+                case 4:
+                    tutorialGroupSystem.listTutorialGrpBasedOnProgrammes();
+                    break;
+                case 5:
+                     // Code for amend operation
+                    break;
+                case 0:
+                    System.out.println("Exiting program...");
+                    break;
+                default:
+                    System.err.println("Invalid choice. Please choose a valid option.");
+            }
+        } while (choice != 0);
+        
+        // Close scanner after use
+        scanner.close();
+    }
+}
