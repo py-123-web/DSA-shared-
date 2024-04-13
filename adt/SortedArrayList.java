@@ -121,6 +121,22 @@ public class SortedArrayList<T extends Comparable<T>> implements SortedListInter
     }
      return false;
   }
+
+//           @Override
+//        public void remove() {
+//            if (currentIndex < 0 || currentIndex >= numberOfEntries) {
+//            System.out.println("Invalid index or remove() called without next()");
+//        }
+//
+//            // Shift elements to the left starting from the index to be removed
+//            for (int i = currentIndex; i < numberOfEntries - 1; i++) {
+//        array[i] = array[i + 1];
+//        }
+//
+//            array[numberOfEntries - 1] = null; // Set the last element to null
+//            numberOfEntries--; // Update the number of entries in the array
+//            currentIndex--; // Decrement the current index after removal
+//            }
         };
     }
     
@@ -178,5 +194,3 @@ public class SortedArrayList<T extends Comparable<T>> implements SortedListInter
   }
 
 }
-
-\\
