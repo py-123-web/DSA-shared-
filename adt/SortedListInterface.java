@@ -1,5 +1,8 @@
 package adt;
-
+/**
+ *
+ * @author USER Low Jia Yu
+ */
 public interface SortedListInterface <T extends Comparable<T>> extends Iterable<T>{
     public boolean add(T newEntry);
     public boolean remove(T anEntry);
