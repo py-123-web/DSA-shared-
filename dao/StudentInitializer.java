@@ -7,7 +7,7 @@ import java.util.Iterator;
 
 /**
  *
- * @author Lee Weng Yan
+ * @author Lee Weng Yan, Low Jia Yu
  */
 public class StudentInitializer {
 
