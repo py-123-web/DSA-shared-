@@ -1,28 +1,32 @@
 package entity;
 
+import adt.*;
+import java.util.Date;
+import java.util.Objects;
+
 /**
  *
- * @author LWY
- * 
- * 
-paymentId
-Amount
-paymentDateTime
-(Description)
+ * @author Lee Weng Yan
  */
-public class RegisterCourse {
+public class RegisterCourse implements Comparable<RegisterCourse> {
+
     private int registerId;
     private double amount;
-    private int registerDate;
+    // private Date registerDate;
+    private SortedListInterface<Course> courseList = new SortedArrayList<>();// one Register Course, many Courses
 
     public RegisterCourse() {
     }
 
-    public RegisterCourse(int registerId, double amount, int registerDate) {
+    public RegisterCourse(int registerId, double amount) {
         this.registerId = registerId;
         this.amount = amount;
-        this.registerDate = registerDate;
     }
+//        public RegisterCourse(int registerId, double amount, Date registerDate) {
+//        this.registerId = registerId;
+//        this.amount = amount;
+//        this.registerDate = registerDate;
+//    }
 
     public int getRegisterId() {
         return registerId;
@@ -40,18 +44,48 @@ public class RegisterCourse {
         this.amount = amount;
     }
 
-    public int getRegisterDate() {
-        return registerDate;
+//    public Date getRegisterDate() {
+//        return registerDate;
+//    }
+//
+//    public void setRegisterDate(Date registerDate) {
+//        this.registerDate = registerDate;
+//    }
+    public SortedListInterface<Course> getCourseList() {
+        return courseList;
     }
 
-    public void setRegisterDate(int registerDate) {
-        this.registerDate = registerDate;
+    public void setCourseList(SortedListInterface<Course> courseList) {
+        this.courseList = courseList;
     }
-    
+
     @Override
     public String toString() {
-        return  "Register ID = " + registerId + 
-                ", Amount = " + amount + 
-                ", Register Date = " + registerDate;
+        return "%-15s %-10s\n"
+                + registerId + amount;
+    }
+    //    @Override
+//    public String toString() {
+//        return "%-15s %-10s %-15s\n"
+//                + registerId + amount + registerDate;
+//    }
+
+    @Override
+    public int compareTo(RegisterCourse otherRegisterCourse) {
+        // Compare based on registerId or any other attribute that defines the natural order
+        return Integer.compare(this.registerId, otherRegisterCourse.registerId); // sort based on registerId
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        //this method is specifically designed to check if two RegisterCourse objects are equal by comparing their register IDs(registerId)
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        RegisterCourse registerCourse = (RegisterCourse) o;
+        return Objects.equals(registerId, registerCourse.registerId);
     }
 }
