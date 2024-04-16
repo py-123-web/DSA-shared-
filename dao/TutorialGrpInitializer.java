@@ -1,26 +1,24 @@
 package dao;
-import adt.*;
-import entity.TutorialGrp;
-/**
- *
- * @author USER Low Jia Yu
- */
-public class TutorialGrpInitializer {
-    public static SortedArrayList<TutorialGrp> TutorialGrpList = new SortedArrayList<>(); 
-    
-    public void insertSampleData() { // Specify type arguments
-        // Specify type arguments
-        TutorialGrpList.add(new TutorialGrp("G1", 25));
-        TutorialGrpList.add(new TutorialGrp("G2", 20));
-        TutorialGrpList.add(new TutorialGrp("G3", 35));
-        TutorialGrpList.add(new TutorialGrp("G4", 21));
-        // Specify type arguments
 
+import adt.SortedArrayList;
+import adt.SortedListInterface;
+import entity.TutorialGroup;
+import static dao.ProgrammeInitializer.programmeList;
+
+public class TutorialGrpInitializer {
+    public static SortedListInterface<TutorialGroup> TutorialGrpList = new SortedArrayList<>();
+
+    public void insertSampleData() {
+        // Sample data for TutorialGrpList
+        TutorialGrpList.add(new TutorialGroup("RSWG1", 1, 3, programmeList.getEntry(0)));
+        TutorialGrpList.add(new TutorialGroup("RSWG2", 2, 2, programmeList.getEntry(2)));
+        TutorialGrpList.add(new TutorialGroup("REIG2", 2, 4, programmeList.getEntry(1)));
+        TutorialGrpList.add(new TutorialGroup("RMTG4", 1, 5, programmeList.getEntry(3)));
     }
 
-    public SortedArrayList<TutorialGrp> getTutorialGrpList() {
+    public SortedListInterface<TutorialGroup> getTutorialGrpList() {
         return TutorialGrpList;
     }
 
-    //
 }
+
