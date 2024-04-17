@@ -10,7 +10,7 @@ import adt.SortedArrayListInterface;
 
 /**
  *
- * @author User
+ * @author Khong Shu Yen
  */
 public class Tutor implements Comparable<Tutor>, Serializable {
 
