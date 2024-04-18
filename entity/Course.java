@@ -111,9 +111,10 @@ public class Course implements Comparable<Course> {
         this.status = status;
     }
     
-    
-    
-    
+    @Override
+    public String toString() {      
+        return String.format("%-10s %-40s %-10s %-15s %-3d %-8s %-8.2f %-5s %-10s\n", courseCode, courseName, classType, semester, creditHour, faculty, fees, programmeCode, status);
+    }
 
     @Override
     public int compareTo(Course o) {
