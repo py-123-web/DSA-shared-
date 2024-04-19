@@ -1,14 +1,14 @@
 package entity;
 
-import java.io.Serializable;
+import adt.*;
 import java.util.Objects;
 
 /**
  *
  * @author Lee Weng Yan
  */
-
 public class Student implements Comparable<Student> {
+
     private String studId;
     private String studName;
     private String ic;
@@ -16,6 +16,7 @@ public class Student implements Comparable<Student> {
     private String contactNo;
     private String email;
     private String address;
+    private SortedListInterface<RegisterCourse> registerCourseList = new SortedArrayList<>(); //one student, many register course
 
     public Student() {
     }
@@ -29,7 +30,7 @@ public class Student implements Comparable<Student> {
         this.email = email;
         this.address = address;
     }
-    
+
     public String getStudId() {
         return studId;
     }
@@ -86,151 +87,35 @@ public class Student implements Comparable<Student> {
         this.address = address;
     }
 
-//    @Override
-//    public String toString() {
-//        return  "Student ID = " + studId + 
-//                ", Student Name = " + studName + 
-//                ", IC = " + ic + 
-//                ", Gender = " + gender + 
-//                ", ContactNo = " + contactNo + 
-//                ", Email = " + email + 
-//                ", Address = " + address;
-//    }
-    
+    public SortedListInterface<RegisterCourse> getRegisterCourseList() {
+        return registerCourseList;
+    }
+
+    public void setRegisterCourseList(SortedListInterface<RegisterCourse> registerCourseList) {
+        this.registerCourseList = registerCourseList;
+    }
+
     @Override
     public String toString() {
-        return String.format("%-10s %-20s %-15s %10s %-15s %-30s %-50s",
-                studId, studName, ic, gender, contactNo, email, address);
+        return String.format("%-15s %-25s %-15s %-10s %-15s %-25s %-30s\n", studId, studName, ic, gender, contactNo, email, address);
     }
-    
-     @Override
+
+    @Override
     public int compareTo(Student otherStudent) {
         // Compare based on studId or any other attribute that defines the natural order
-        return this.studId.compareTo(otherStudent.studId);
+        return this.studName.compareTo(otherStudent.studName); //sort base on studName
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        //this method is specifically designed to check if two Student objects are equal by comparing their student IDs (studId)
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Student student = (Student) o;
         return Objects.equals(studId, student.studId);
     }
-//
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(studId);
-//    }
-    
 }
-//public class Student implements Serializable{
-//
-//    private String studId;
-//    private String studName;
-//    private int ic;
-//    private String gender;
-//    private int contactNo;
-//    private String email;
-//    private String address;
-//
-//    public Student() {
-//    }
-//
-//    public Student(String studId, String studName, int ic, String gender, int contactNo, String email, String address) {
-//        this.studId = studId;
-//        this.studName = studName;
-//        this.ic = ic;
-//        this.gender = gender;
-//        this.contactNo = contactNo;
-//        this.email = email;
-//        this.address = address;
-//    }
-//
-//    public String getStudId() {
-//        return studId;
-//    }
-//
-//    public void setStudId(String studId) {
-//        this.studId = studId;
-//    }
-//
-//    public String getStudName() {
-//        return studName;
-//    }
-//
-//    public void setStudName(String studName) {
-//        this.studName = studName;
-//    }
-//
-//    public int getIc() {
-//        return ic;
-//    }
-//
-//    public void setIc(int ic) {
-//        this.ic = ic;
-//    }
-//
-//    public String getGender() {
-//        return gender;
-//    }
-//
-//    public void setGender(String gender) {
-//        this.gender = gender;
-//    }
-//
-//    public int getContactNo() {
-//        return contactNo;
-//    }
-//
-//    public void setContactNo(int contactNo) {
-//        this.contactNo = contactNo;
-//    }
-//
-//    public String getEmail() {
-//        return email;
-//    }
-//
-//    public void setEmail(String email) {
-//        this.email = email;
-//    }
-//
-//    public String getAddress() {
-//        return address;
-//    }
-//
-//    public void setAddress(String address) {
-//        this.address = address;
-//    }
-
-    //override havent complete
-    /*
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Product other = (Product) obj;
-        if (!Objects.equals(this.number, other.number)) {
-            return false;
-        }
-        return true;
-    }
-    
-     @Override
-    public String toString() {
-        return String.format("%-10s %-40s %10d", number, name, quantity);
-    }
-     */
-//}
