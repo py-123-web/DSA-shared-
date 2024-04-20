@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 
 /**
  *
- * @author syhor
+ * @author All Members
  */
 public class DateTime {
     public static String currentDateTime() {
