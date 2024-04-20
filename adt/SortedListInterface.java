@@ -1,7 +1,7 @@
 package adt;
 /**
  *
- * @author USER Low Jia Yu
+ * @author All Members
  */
 public interface SortedListInterface <T extends Comparable<T>> extends Iterable<T>{
     public boolean add(T newEntry);
@@ -12,4 +12,5 @@ public interface SortedListInterface <T extends Comparable<T>> extends Iterable<
     public int getNumberOfEntries();
     public boolean isEmpty();
 
+    public void clear();//add on
 }
