@@ -641,7 +641,12 @@ private TutorialGroup findTutorialGroupByName(SortedListInterface<TutorialGroup>
 
         System.out.print("\nEnter Programme Code to select the programme: ");
         String programmeCode = scanner.nextLine().trim();
-
+        
+        // Check if the programme code is in the correct format (e.g., ABC)
+        if (!programmeCode.matches("[A-Za-z]{3}")) {
+            System.out.println("Error: Programme code must be in the format ABC.");
+            continue; // Restart the loop to prompt for another programme code
+        }
         Programme selectedProgramme = findProgrammeByCode(programmeCode);
 
         if (selectedProgramme != null) {
