@@ -49,44 +49,7 @@ public class StudentInitializer {
 //        studentList.add(new Student("20WMR23099", "Florence Lee Hui En", "048586-01-9201", "FEMALE", "011-6505378", "florence@tarc.edu.my", "84 Jalan Jati"));
 //        studentList.add(new Student("20WMR23100", "Fiona Wee Teng Kai", "045625-07-7156", "MALE", "011-1021807", "fiona@tarc.edu.my", "79 Jalan Pantai"));
     }
-
-//    public Iterator<Student> studentInit() {//follow py - i think no need use
-//        return studentList.iterator();
-//
-//    }
-    public void initializeRegisteredCourse() { //need ot not???
-//        registerCourseList.add(new RegisterCourse(studentList.getEntry(0).getStudId(), courseList.getEntry(0).getCourseCode(), 777.00));
-//        registerCourseList.add(new RegisterCourse(studentList.getEntry(0), courseList.getEntry(0), 777.00));
-        registerCourseList.add(new RegisterCourse(66666.00));
-    }
-
-//    public void initializeRegisteredCourse() {
-//        // Assuming studentList and courseList are already populated with data
-//        // Adding sample data to registerCourseList
-//        Student student1 = studentList.getEntry(0); // Assuming you have a method to get students by index
-//    Course course1 = courseList.getEntry(0); // Assuming you have a method to get courses by index
-//    registerCourseList.add(new RegisterCourse(student1, course1, 777.00));
-//
-//    Student student2 = studentList.getEntry(1); // Assuming you have a method to get students by index
-//    Course course2 = courseList.getEntry(1); // Assuming you have a method to get courses by index
-//    registerCourseList.add(new RegisterCourse(student2, course2, 888.00));
-//        // Add more entries as needed
-//    }
-//public void initializeRegisteredCourse() {
-//    // Assuming studentList and courseList are already populated with data
-//    Student student1 = new Student("22WMR23056", "Bryan Tan Jun Han", "030430-07-0084", "MALE", "011-2010202", "bryan@tarc.edu.my", "34 Jalan Emas");
-//    Student student2 = new Student("21WMR01237", "Zen Tan Wei Hao", "000912-09-1234", "MALE", "012-2587101", "zen@tarc.edu.my", "33 Jalan Bunga");
-//    // Add more students as needed
-//
-//    Course course1 = new Course("BACS2063", "DATA STRUCTURE AND ALGORITHM", "Lecture", "YEAR 3 SEM 3", 3, "FOCS", 777.00, "REI", "Main");
-//    Course course2 = new Course("BAIT1093", "INTRODUCTION TO COMPUTER SECURITY", "Lecture", "YEAR 3 SEM 3", 3, "FOCS", 777.00, "REI", "Main");
-//    // Add more courses as needed
-//
-//    // Adding students and courses to registerCourseList
-//    registerCourseList.add(new RegisterCourse(student1, course1, 777.00));
-//    registerCourseList.add(new RegisterCourse(student2, course2, 888.00));
-//    // Add more register course entries as needed
-//}
+    
     public void CourseInfo() {
         courseList.add(new Course("BACS2063", "DATA STRUCTURE AND ALGORITHM", "Tutorial", "YEAR 3 SEMESTER 3", 3, "FOCS", 777.00, "REI", "Main"));
         courseList.add(new Course("BAIT1093", "INTRODUCTION TO COMPUTER SECURITY", "Lecture", "YEAR 3 SEMESTER 3", 3, "FOCS", 777.00, "", "Main"));
