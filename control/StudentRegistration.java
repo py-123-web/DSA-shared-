@@ -27,7 +27,6 @@ public class StudentRegistration {
         int choice = 0;
         getStudentInitializer.initializeStudent();          //student list
        // getStudentInitializer.CourseInfo();                 //course list
-        getStudentInitializer.initializeRegisteredCourse(); //registered course list
         initializer.CourseInfo();	                        //add PY part
 
         do {
