@@ -5,7 +5,7 @@ import java.util.Objects;
 
 /**
  *
- * @author Lee Weng Yan
+ * @author Lee Weng Yan,Low Jia Yu
  */
 public class Student implements Comparable<Student> {
 
@@ -95,6 +95,24 @@ public class Student implements Comparable<Student> {
         this.registerCourseList = registerCourseList;
     }
 
+     public SortedListInterface<TutorialGroup> getTutorialGroups() {
+        return tutorialGroups;
+    }
+
+    // Getters and setters
+    public void setTutorialGroups(SortedArrayList<TutorialGroup> tutorialGroups) {    
+        this.tutorialGroups = tutorialGroups;
+    }
+
+    // Method to add a TutorialGrp to the programme
+    public void addTutorialGroup(TutorialGroup tutorialGrp) {
+        tutorialGroups.add(tutorialGrp);
+    }
+
+    public void removeTutorialGroup(TutorialGroup tutorialGrp) {
+        tutorialGroups.remove(tutorialGrp);
+    }
+    
     @Override
     public String toString() {
         return String.format("%-15s %-25s %-15s %-10s %-15s %-25s %-30s\n", studId, studName, ic, gender, contactNo, email, address);
@@ -118,4 +136,9 @@ public class Student implements Comparable<Student> {
         Student student = (Student) o;
         return Objects.equals(studId, student.studId);
     }
+
+    @Override
+public int hashCode() {
+    return Objects.hash(studId);
+}
 }
