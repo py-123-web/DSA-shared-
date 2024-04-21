@@ -14,17 +14,17 @@ public class StudentRegistrationUI {
     public int getMenuChoice() {
         System.out.println("\nSTUDENT REGISTRARION MANAGEMENT SUBSYSTEM");
         System.out.println("=========================================");
-        System.out.println("1. List all students");
-        System.out.println("2. Add new students");
-        System.out.println("3. Remove a student");
-        System.out.println("4. Amend student details");
-        System.out.println("5. Search students for registered courses");
-        System.out.println("6. Add students to a few courses & Calculate fee paid");
-        System.out.println("7. Remove a student from a course registration");
-        System.out.println("8. Filters students for courses based on citeria");
-        System.out.println("9. Student Age Analysis Summary Report");
-        System.out.println("10. Generate [change name in UI] summary reports");
-        System.out.println("0. Quit");
+        System.out.println("1.  List all students");
+        System.out.println("2.  Add new students");
+        System.out.println("3.  Remove a student");
+        System.out.println("4.  Amend student details");
+        System.out.println("5.  Search students for registered courses");
+        System.out.println("6.  Add students to a few courses & Calculate fee paid");
+        System.out.println("7.  Remove a student from a course registration");
+        System.out.println("8.  Filters students for courses based on citeria");
+        System.out.println("9.  Student Age Analysis Summary Report");
+        System.out.println("10. Student Course Enrollment Status and Total Fees Collection Summary Report");
+        System.out.println("0.  Quit");
         System.out.print("Enter choice: ");
         int choice = scanner.nextInt();
         scanner.nextLine();
@@ -109,10 +109,7 @@ public class StudentRegistrationUI {
         System.out.println("                                      STUDENT REGISTRATION MANAGEMENT SUBSYSTEM");
         System.out.println("\n                                       STUDENT AGE ANALYSIS SUMMARY REPORT");
         System.out.println(  "                                       -----------------------------------");
-        DateTime.currentDateTime();
-
-
-        
+        DateTime.currentDateTime();   
     }
     
     //=== 9.Summary Report 2 ===
@@ -120,13 +117,12 @@ public class StudentRegistrationUI {
         System.out.println("\n=====================================================================================================================================");
         System.out.println("                               TUNKU ABDUL RAHMAN UNIVERSITY OF MANAGEMENT AND TECHNOLOGY");
         System.out.println("                                      STUDENT REGISTRATION MANAGEMENT SUBSYSTEM");
-        System.out.println("\n                                               STUDENT SUMMARY REPORT");
-        System.out.println("                                            --------------------------------");
+        System.out.println("\n                       STUDENT COURSE ENROLLMENT STATUS & TOTAL FEES COLLECTION SUMMARY REPORT");
+        System.out.println(  "                       -----------------------------------------------------------------------");
         DateTime.currentDateTime();
-        System.out.println("\nStudent ID        Student Name     IC     Gender  Contact No  Email   Address");
-        System.out.println("----------        ------------     --     ------  ----------  -----   --------");
-        System.out.println("\nTotal " + "gettotal" + "Students: ???");
-        System.out.println("\n-------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("\n-----------------------------------------------------------------------------");
+        System.out.println(  "Student ID   Main Courses   Repeat Courses   Resit Courses   Elective Courses");
+        System.out.println(  "-----------------------------------------------------------------------------");
     }
 
     public void printReportFooter() {
