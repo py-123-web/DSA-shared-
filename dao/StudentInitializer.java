@@ -37,17 +37,6 @@ public class StudentInitializer {
         studentList.add(new Student("20WMR23015", "Clement Chen Chow Yan", "023815-14-7409", "FEMALE", "011-8529891", "clement@tarc.edu.my", "32 Jalan Dang Wangi"));
         studentList.add(new Student("20WMR23056", "Dexter Tan Seng Kit", "023887-03-4147", "MALE", "011-9318631", "dexter@tarc.edu.my", "3 Jalan Aman"));
         studentList.add(new Student("20WMR23033", "Danial See Han Wai", "021636-07-2938", "MALE", "011-2286956", "danial@tarc.edu.my", "5 Jalan Bunga"));
-//
-//        studentList.add(new Student("20WMR23076", "Derrick Wong Yow Heng", "017843-09-4037", "MALE", "011-7107600", "derrick@tarc.edu.my", "89 Jalan Kuching"));
-//        studentList.add(new Student("20WMR23098", "Denise Lai Wen Pei", "016032-14-3068", "FEMALE", "011-1178901", "denise@tarc.edu.my", "3 Jalan Ipoh"));
-//        studentList.add(new Student("20WMR23045", "Darrell Hao Chin Peng", "019596-14-6212", "MALE", "011-2435012", "darrell@tarc.edu.my", "94 Jalan Shelley"));
-//        studentList.add(new Student("20WMR23066", "Esther Zhang Yu Wen", "010685-14-1684", "FEMALE", "011-5507215", "esther@tarc.edu.my", "25 Jalan Sultan Hishamuddin"));
-//        studentList.add(new Student("20WMR23023", "Elise Poh Yi Mei", "010027-14-1549", "FEMALE", "011-2200797", "elise@tarc.edu.my", "92 Jalan Kampar"));
-//        studentList.add(new Student("20WMR23090", "Emma Cho Xin Yi", "038939-28-4683", "FEMALE", "011-6115211", "emma@tarc.edu.my", "42 Jalan Persatuan"));
-//        studentList.add(new Student("20WMR23014", "Felix Chee Khai Xian", "030419-05-2401", "MALE", "011-8418411", "felix@tarc.edu.my", "9 Jalan Klang"));
-//        studentList.add(new Student("20WMR23033", "Francis Lem Ho Teng", "991395-03-5683", "MALE", "011-4070675", "francis@tarc.edu.my", "8 Jalan Temenggung"));
-//        studentList.add(new Student("20WMR23099", "Florence Lee Hui En", "048586-01-9201", "FEMALE", "011-6505378", "florence@tarc.edu.my", "84 Jalan Jati"));
-//        studentList.add(new Student("20WMR23100", "Fiona Wee Teng Kai", "045625-07-7156", "MALE", "011-1021807", "fiona@tarc.edu.my", "79 Jalan Pantai"));
     }
     
     public void CourseInfo() {
