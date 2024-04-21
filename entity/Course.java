@@ -1,5 +1,6 @@
 package entity;
 
+import java.util.Objects; //add on
 /**
  *
  * @author Hor Pei Yu
@@ -121,6 +122,18 @@ public class Course implements Comparable<Course> {
         return this.courseCode.compareTo(o.courseCode);
     }
 
+    @Override //add on
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Course course = (Course) obj;
+        return Objects.equals(courseCode, course.courseCode);
+    }
+    
 //    @Override
 //    public boolean equals(Object obj) {
 //        if (this == obj) {
