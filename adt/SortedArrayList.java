@@ -78,6 +78,12 @@ public class SortedArrayList<T extends Comparable<T>> implements SortedListInter
     return numberOfEntries == 0;
   }
 
+  public void clear() { // add on
+    array = (T[]) new Comparable[DEFAULT_CAPACITY];
+
+    numberOfEntries = 0; // Reset the number of entries to 0
+  }
+  
   public String toString() {
     String outputStr = "";
     for (int index = 0; index < numberOfEntries; ++index) {
