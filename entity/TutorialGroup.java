@@ -1,8 +1,9 @@
 package entity;
 
 import adt.*;
-import java.util.Iterator;
-
+import dao.StudentInitializer;
+import static dao.TutorialGrpInitializer.tgStudentList;
+import static dao.TutorialGrpInitializer.tutorialGrpList;
 /**
  *
  * @author Low Jia Yu
@@ -13,27 +14,52 @@ public class TutorialGroup implements Comparable<TutorialGroup> {
     private int noOfStudent;
     private SortedArrayList<Student> enrolledStudents;
     private SortedArrayList<Programme> programmes;
-
-    public TutorialGroup(String tutorialGroupName) {
+    private Student student;
+    
+    public TutorialGroup(String tutorialGroupName, int groupNo) {
         this.tutorialGroupName = tutorialGroupName;
-    }
-
-    public TutorialGroup(String tutorialGroupName, int noOfStudents) {
-        this.tutorialGroupName = tutorialGroupName;
-    }
-
-    public TutorialGroup(String tutorialGroupName, int groupNo, int noOfStudent) {
-        this(tutorialGroupName, groupNo, noOfStudent, null);
+        this.groupNo = groupNo;
+        this.enrolledStudents = new SortedArrayList<>();
+        this.programmes = new SortedArrayList<>();
     }
     
-    public TutorialGroup(String tutorialGroupName, int groupNo, int noOfStudent, Programme programmeCode) {
+      public TutorialGroup(String tutorialGroupName, int groupNo,int noOfStudent) {
+        this.tutorialGroupName = tutorialGroupName;
+        this.groupNo = groupNo;
+        this.enrolledStudents = new SortedArrayList<>();
+        this.programmes = new SortedArrayList<>();
+    }
+      
+     public TutorialGroup(int noOfStudent) {
+        this.noOfStudent = noOfStudent;
+        this.enrolledStudents = new SortedArrayList<>();
+        this.programmes = new SortedArrayList<>();
+        
+        for(int i = 0; i < noOfStudent; i++) {
+            enrolledStudents.add(StudentInitializer.studentList.getEntry(i));
+        }
+    }
+    public TutorialGroup(String tutorialGroupName, int groupNo, int noOfStudent, Programme programme) {
+        this.student = student;
         this.tutorialGroupName = tutorialGroupName;
         this.groupNo = groupNo;
         this.noOfStudent = noOfStudent;
         this.enrolledStudents = new SortedArrayList<>();
         this.programmes = new SortedArrayList<>();
+        
+        for(int i = 0; i < noOfStudent; i++) {
+            enrolledStudents.add(StudentInitializer.studentList.getEntry(i));
+        }
     }
 
+     public TutorialGroup(Student student, String tutorialGroupName, int groupNo, int noOfStudent, Programme programme) {
+        this.tutorialGroupName = tutorialGroupName;
+        this.groupNo = groupNo;
+        this.noOfStudent = noOfStudent;
+        this.enrolledStudents = new SortedArrayList<>();
+        this.programmes = new SortedArrayList<>();
+     }
+     
     public String getTutorialGroupName() {
         return tutorialGroupName;
     }
@@ -55,7 +81,19 @@ public class TutorialGroup implements Comparable<TutorialGroup> {
     }
 
     public void setNoOfStudent(int noOfStudent) {
+        int original = this.noOfStudent;
         this.noOfStudent = noOfStudent;
+        
+        if(original > noOfStudent) {
+            for(int i = 0; i < (original - noOfStudent);i++) {
+                this.enrolledStudents.remove(this.enrolledStudents.getEntry(i));
+            }
+        } else if(original < noOfStudent) {
+            for(int i = 0; i < (noOfStudent - original); i++) {
+                enrolledStudents.add(StudentInitializer.studentList.getEntry(i));
+            }
+        }
+        
     }
 
      public SortedListInterface<Student> getEnrolledStudents() {
@@ -72,11 +110,6 @@ public class TutorialGroup implements Comparable<TutorialGroup> {
 
     public void setProgrammes(SortedArrayList<Programme> programmes) {
         this.programmes = programmes;
-    }
-
-
-    public void addProgramme(Programme programme) {
-        programmes.add(programme);
     }
 
      public void addStudent(Student student) {
@@ -111,21 +144,6 @@ public class TutorialGroup implements Comparable<TutorialGroup> {
     public String toString() {
         return String.format("%-25s %-15d", tutorialGroupName, noOfStudent);
     }
-
-    public boolean removeStudentById(String studentId) {
-    boolean studentRemoved = false;
-    Iterator<Student> iterator = enrolledStudents.iterator();
-    while (iterator.hasNext()) {
-        Student student = iterator.next();
-        if (student.getStudId().equals(studentId)) {
-            iterator.remove();
-            noOfStudent--;
-            studentRemoved = true;
-            break; // Stop searching after the first matching student is removed
-        }
-    }
-    return studentRemoved;
-}
 
   
 }
