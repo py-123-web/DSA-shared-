@@ -25,5 +25,9 @@ public class MessageUI {
 
    public static void displayAddStudInvalidGender() {
         System.out.println("Invalid input for gender. Please enter 'M' or 'F'.");
-    }    
+    }  
+   
+   public static void displayStudAdded() {
+        System.out.println("\nNew Student Added!\n");
+    }
 }
