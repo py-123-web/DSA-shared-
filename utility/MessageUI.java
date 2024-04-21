@@ -22,5 +22,8 @@ public class MessageUI {
         System.out.println("");
        System.out.println("\u001B[31mInvalid choice. Please try again\u001B[0m");
     }
-     
+
+   public static void displayAddStudInvalidGender() {
+        System.out.println("Invalid input for gender. Please enter 'M' or 'F'.");
+    }    
 }
