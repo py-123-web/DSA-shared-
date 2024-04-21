@@ -26,7 +26,7 @@ public class StudentRegistration {
     public void runStudentRegistration() {
         int choice = 0;
         getStudentInitializer.initializeStudent();          //student list
-        //getStudentInitializer.CourseInfo();                 //course list
+       // getStudentInitializer.CourseInfo();                 //course list
         getStudentInitializer.initializeRegisteredCourse(); //registered course list
         initializer.CourseInfo();	                        //add PY part
 
@@ -62,6 +62,7 @@ public class StudentRegistration {
                     break;
                 case 9:
                     generateSummaryReport1();
+                    break;
                 case 10:
                     generateSummaryReport2();
                     break;
@@ -78,8 +79,8 @@ public class StudentRegistration {
         boolean foundData = false;
         int count = 0; // Initialize total student count
 
-        if (!getStudentInitializer.studentList.isEmpty()) {
-            count = getStudentInitializer.studentList.getNumberOfEntries(); // Get the total number of students
+        if (!getStudentInitializer.studentList.isEmpty()) { // ADT
+            count = getStudentInitializer.studentList.getNumberOfEntries(); // ADT -  Get the total number of students
             while (studentIterator.hasNext()) {
                 Student student = studentIterator.next();
                 studentUI.printStudentDetails(student.getStudId(), student.getStudName(), student.getIc(), student.getGender(), student.getContactNo(), student.getEmail(), student.getAddress());
@@ -87,7 +88,7 @@ public class StudentRegistration {
             }
         }
 
-        if (!foundData && getStudentInitializer.studentList.isEmpty()) {
+        if (!foundData && getStudentInitializer.studentList.isEmpty()) { //ADT
             System.out.println("No student found.");
         }
 
@@ -120,7 +121,7 @@ public class StudentRegistration {
         String address = getValidatedEmpty("Enter Address: [eg. 2 Jalan Bunga]: ");
 
         Student newStudent = new Student(studId, studName, ic, gender, contactNo, email, address);
-        getStudentInitializer.studentList.add(newStudent); // ADT - add the new student
+        getStudentInitializer.studentList.add(newStudent); // ADT 
         MessageUI.displayStudAdded();
         System.out.println(newStudent); // print the added student
     }
@@ -247,8 +248,8 @@ public class StudentRegistration {
 
         while (registerCourseIterator.hasNext()) {
             RegisterCourse registerCourse = registerCourseIterator.next();
-            Course courseR = registerCourse.getCourseList().getEntry(0); // Assuming only one course per RegisterCourse
-            System.out.printf("%-15s | %-50s | %-15.2f | %s%n",
+            Course courseR = registerCourse.getCourseList().getEntry(0); // ADT - Assuming only one course per RegisterCourse
+            System.out.printf("%-15s | %-50s | %-15.2f  | %s%n",
                     courseR.getCourseCode(),
                     courseR.getCourseName(),
                     registerCourse.getFeesPaid(),
@@ -265,7 +266,7 @@ public class StudentRegistration {
     }
 
     //------------(6)add Student To Courses-----------------
-    public void addStudentToCourses() {
+    public void addStudentToCourses() { //can can can 
         Scanner scanner = new Scanner(System.in);
 
         // -----student part-----
@@ -283,46 +284,106 @@ public class StudentRegistration {
         }
 
         // Clear the previous bill
-        registerCourseList.clear();
+        registerCourseList.clear();  // ADT
 
-        // -----course part-----
         double totalFees = 0.00;
-        char addMoreCourses = 0; // assign empty value for addMoreCourses == 'Y'
-
-        // Print course details
-        studentUI.printCourseDeatilsHeader();
-        //Iterator<Course> courseIterator = getStudentInitializer.courseList.iterator();
-        Iterator<Course> courseIterator = initializer.courseList.iterator();	//add PY part
-
-        while (courseIterator.hasNext()) {
-            System.out.println(courseIterator.next());
-        }
-        System.out.println("------------------------------------------------------------------------------------------------------------------------------");
-
+        char addMoreCourses = 'Y'; // Initialize with 'Y' to enter the loop
         do {
-            System.out.printf("\nEnter Course Code: ");
-            String courseCode = scanner.nextLine().trim().toUpperCase();
+            // Choose status
+            System.out.println("\nChoose the status for course :");
+            System.out.println("1. Main");
+            System.out.println("2. Repeat");
+            System.out.println("3. Resit");
+            System.out.println("4. Elective");
+            System.out.print("\nEnter your choice (1-4): ");
+            int statusChoice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline character
 
-            Course selectedCourse = findCourseByCode(courseCode);
-
-            if (selectedCourse == null) {
-                System.out.println("Course with code " + courseCode + " not found.");
-                continue;
+            String selectedStatus = "";
+            switch (statusChoice) {
+                case 1:
+                    selectedStatus = "Main";
+                    break;
+                case 2:
+                    selectedStatus = "Repeat";
+                    break;
+                case 3:
+                    selectedStatus = "Resit";
+                    break;
+                case 4:
+                    selectedStatus = "Elective";
+                    break;
+                default:
+                    System.out.println("\nInvalid choice. Please enter a number between 1 and 4.");
+                    return; // Exit the method if choice is invalid
             }
 
-            double courseFees = selectedCourse.getFees();
-            totalFees += courseFees;
+            // Print courses with the selected status
+            System.out.println("\nCourses with status " + selectedStatus + ":");
+            System.out.println("--------------------------------------------------------------------------------------------");
+            System.out.printf("%-15s %-50s %-15s %-20s%n", "Course Code", "Course Name", "Course Fees (RM)", "Status");
+            System.out.println("--------------------------------------------------------------------------------------------");
 
-            // Create a new RegisterCourse object for each course added by the student
-            RegisterCourse registerCourse = new RegisterCourse(courseFees);
-            registerCourse.getCourseList().add(selectedCourse); // Add the selected course to the registerCourse
-            registerCourseList.add(registerCourse); // Add the registerCourse to the registerCourseList for the student
+            boolean courseFound = false;
+            for (Course course : initializer.courseList) {      //add PY part
+            //for (Course course : getStudentInitializer.courseList) {
+                if (course.getStatus().contains(selectedStatus)) { //ADT
+                    courseFound = true;
+                    //display course list
+                    System.out.printf("%-15s %-50s %-15s %-20s%n",
+                            course.getCourseCode(),
+                            course.getCourseName(),
+                            course.getFees(),
+                            course.getStatus()
+                    );
+                    System.out.println("");
+                }
+            }
+            System.out.println("--------------------------------------------------------------------------------------------");
 
-            // Add the registerCourse to the student's registerCourseList
-            studentToAdd.getRegisterCourseList().add(registerCourse);
+            if (!courseFound) {
+                System.out.println("\nNo courses offered with status " + selectedStatus + ".");
+                // Jump to ask the question 'add more course'
+            } else {
+                // -----course part-----
+                System.out.printf("\nEnter Course Code: ");
+                String courseCode = scanner.nextLine().trim().toUpperCase();
 
-            System.out.print("\nAdd another course? (Y/N): ");
-            addMoreCourses = scanner.nextLine().toUpperCase().charAt(0);
+                Course selectedCourse = findCourseByCode(courseCode);
+
+                if (selectedCourse == null) {
+                    System.out.println("\nCourse with code " + courseCode + " not found.");
+                    continue; // Ask the user to enter again
+                }
+
+                // Check if the course is already registered
+                boolean courseAlreadyRegistered = false;
+                for (RegisterCourse registerCourse : registerCourseList) {
+                    if (registerCourse.getCourseList().getEntry(0).equals(selectedCourse)) { // ADT 
+                        courseAlreadyRegistered = true;
+                        break;
+                    }
+                }
+
+                if (courseAlreadyRegistered) {
+                    System.out.println("\nYou have already registered the course with code " + courseCode + ".");
+                    continue; // Ask the user to enter another course code
+                }
+
+                double courseFees = selectedCourse.getFees();
+                totalFees += courseFees;
+
+                // Create a new RegisterCourse object for each course added by the student
+                RegisterCourse registerCourse = new RegisterCourse(courseFees);
+                registerCourse.getCourseList().add(selectedCourse); // ADT - Add the selected course to the registerCourse
+                registerCourseList.add(registerCourse); // ADT - Add the registerCourse to the registerCourseList for the student
+
+                // Add the registerCourse to the student's registerCourseList
+                studentToAdd.getRegisterCourseList().add(registerCourse); // ADT 
+
+                System.out.print("\nAdd another course? (Y/N): ");
+                addMoreCourses = scanner.nextLine().toUpperCase().charAt(0);
+            }
         } while (addMoreCourses == 'Y');
 
         // Generate Bill
@@ -331,13 +392,13 @@ public class StudentRegistration {
         System.out.println("Student Name: " + studentToAdd.getStudName());
 
         System.out.println("------------------------------------------------------------------------------------------------");
-        System.out.printf("%-15s | %-50s | %-15s | %-15s%n", "Course Code", "Course Name", "Course Fees (RM)", "Status");
+        System.out.printf("%-15s | %-50s | %-15s | %-1s%n", "Course Code", "Course Name", "Course Fees (RM)", "Status");
         System.out.println("------------------------------------------------------------------------------------------------");
 
         for (RegisterCourse registerCourse : registerCourseList) {
             Course courseReg = registerCourse.getCourseList().getEntry(0); // ADT - Assuming only one course per RegisterCourse
             double fees = registerCourse.getFeesPaid();
-            System.out.printf("%-15s | %-50s | %-15.2f | %s%n",
+            System.out.printf("%-15s | %-50s | %-15.2f  | %s%n",
                     courseReg.getCourseCode(),
                     courseReg.getCourseName(),
                     fees,
@@ -376,7 +437,7 @@ public class StudentRegistration {
 
         while (registerCourseIterator.hasNext()) {
             RegisterCourse registerCourse = registerCourseIterator.next();
-            Course courseR = registerCourse.getCourseList().getEntry(0); // Assuming only one course per RegisterCourse
+            Course courseR = registerCourse.getCourseList().getEntry(0); // ADT - Assuming only one course per RegisterCourse
             System.out.printf("%-15s | %-50s | %-15.2f | %s%n",
                     courseR.getCourseCode(),
                     courseR.getCourseName(),
@@ -404,9 +465,9 @@ public class StudentRegistration {
 
         // Remove the course from the student's registerCourseList
         for (RegisterCourse registerCourse : studentToRemove.getRegisterCourseList()) {
-            Course courseInRegisterCourse = registerCourse.getCourseList().getEntry(0); // Assuming one course per RegisterCourse
-            if (courseInRegisterCourse.getCourseCode().contains(courseToRemove.getCourseCode())) {
-                studentToRemove.getRegisterCourseList().remove(registerCourse);
+            Course courseInRegisterCourse = registerCourse.getCourseList().getEntry(0); // ADT - Assuming one course per RegisterCourse
+            if (courseInRegisterCourse.getCourseCode().contains(courseToRemove.getCourseCode())) {  //ADT
+                studentToRemove.getRegisterCourseList().remove(registerCourse); // ADT 
                 System.out.println("\nCourse " + courseToRemove.getCourseCode() + " removed from student " + studentToRemove.getStudId());
                 return;
             }
@@ -415,7 +476,7 @@ public class StudentRegistration {
         System.out.println("\nStudent " + studentToRemove.getStudId() + " is not enrolled in course " + courseToRemove.getCourseCode());
     }
 
-    //--------------(8)filter student for courses based on citeria--------------------------
+    //-------(8)filter student for courses based on citeria-------------
     public void filterStudentForCourse() {
         studentUI.printFiltersStudentsForCourseCiteriaHeader();
         Scanner scanner = new Scanner(System.in);
@@ -423,7 +484,7 @@ public class StudentRegistration {
         // Print course details
         studentUI.printCourseDeatilsHeader();
         //Iterator<Course> courseIterator = getStudentInitializer.courseList.iterator();
-        Iterator<Course> courseIterator = initializer.courseList.iterator();	//add PY part
+         Iterator<Course> courseIterator = initializer.courseList.iterator();	//add PY part
 
         while (courseIterator.hasNext()) {
             System.out.println(courseIterator.next());
@@ -450,8 +511,6 @@ public class StudentRegistration {
             for (RegisterCourse registerCourse : student.getRegisterCourseList()) {
                 for (Course courseInRegisterCourse : registerCourse.getCourseList()) {
                     if (courseInRegisterCourse.getCourseCode().contains(courseCode)) {
-
-                        //System.out.println(student.getStudId() + " - " + student.getStudName());
                         System.out.printf("%-15s %s%n",
                                 student.getStudId(),
                                 student.getStudName()
@@ -559,12 +618,83 @@ public class StudentRegistration {
         return age;
     }
 
-    //--------------(9A)generate Summary Report--------------------------
+    //--------------(9B)generate Summary Report--------------------------
     public void generateSummaryReport2() {
-        studentUI.printReportHeader2();
+        studentUI.printReportHeader2(); // Print the report header
 
-        //code here
-        studentUI.printReportFooter();
+        // Initialize total fees paid by all students
+        double totalFeesPaidByAll = 0;
+
+        // Initialize total counts for main, repeat, resit, and elective courses
+        int totalMainCount = 0;
+        int totalRepeatCount = 0;
+        int totalResitCount = 0;
+        int totalElectiveCount = 0;
+
+        // Loop through all students using an iterator
+        Iterator<Student> studentIterator = getStudentInitializer.studentList.iterator();
+        while (studentIterator.hasNext()) {
+            Student student = studentIterator.next();
+            String studentId = student.getStudId();
+
+            // Initialize counters for main, repeat, resit, and elective courses for each student
+            int mainCount = 0;
+            int repeatCount = 0;
+            int resitCount = 0;
+            int electiveCount = 0;
+
+            // Loop through the register courses of the student using an iterator
+            Iterator<RegisterCourse> registerCourseIterator = student.getRegisterCourseList().iterator();
+            while (registerCourseIterator.hasNext()) {
+                RegisterCourse registerCourse = registerCourseIterator.next();
+                Course course = registerCourse.getCourseList().getEntry(0); // ADT - Assuming only one course per RegisterCourse
+
+                // Count course types
+                switch (course.getStatus()) {
+                    case "Main":
+                        mainCount++;
+                        totalMainCount++;
+                        break;
+                    case "Repeat":
+                        repeatCount++;
+                        totalRepeatCount++;
+                        break;
+                    case "Resit":
+                        resitCount++;
+                        totalResitCount++;
+                        break;
+                    case "Elective":
+                        electiveCount++;
+                        totalElectiveCount++;
+                        break;
+                }
+
+                // Accumulate total fees paid by all students
+                totalFeesPaidByAll += registerCourse.getFeesPaid();
+            }
+
+            System.out.printf("%-15s %-15s %-17s %-16s %s%n",
+                    studentId,
+                    mainCount,
+                    repeatCount,
+                    resitCount,
+                    electiveCount
+            );
+        }
+        System.out.println("-----------------------------------------------------------------------------");
+
+        // Print total counts for main, repeat, resit, and elective courses
+        System.out.printf("%-15s %-15s %-17s %-16s %s%n",
+                "Total",
+                totalMainCount,
+                totalRepeatCount,
+                totalResitCount,
+                totalElectiveCount
+        );
+        System.out.println("-----------------------------------------------------------------------------");
+        System.out.printf("\nTotal Fees Paid by All Students: %.2f\n", totalFeesPaidByAll);
+
+        studentUI.printReportFooter(); // Print the report footer
         pressEnterToContinue();
     }
 
@@ -574,7 +704,7 @@ public class StudentRegistration {
 
         while (studentIterator.hasNext()) {
             Student student = studentIterator.next();
-            if (student.getStudId().contains(studentID)) {
+            if (student.getStudId().contains(studentID)) {  //ADT
                 return student; // Found the student with the matching ID
             }
         }
@@ -584,11 +714,11 @@ public class StudentRegistration {
     //-----------------------find course----------------------------- 
     public Course findCourseByCode(String courseCode) { //search course
         //Iterator<Course> courseIterator = getStudentInitializer.courseList.iterator();
-        Iterator<Course> courseIterator = initializer.courseList.iterator();	//add PY part
+         Iterator<Course> courseIterator = initializer.courseList.iterator();	//add PY part
 
         while (courseIterator.hasNext()) {
             Course course = courseIterator.next();
-            if (course.getCourseCode().contains(courseCode)) {
+            if (course.getCourseCode().contains(courseCode)) {  //ADT
                 return course; // Found the course with the matching code
             }
         }
@@ -612,27 +742,8 @@ public class StudentRegistration {
         return input;
     }
 
-//    //=== validation for StudId ===
-//    public static String getValidatedStudId(String prompt) {
-//        Scanner scan = new Scanner(System.in);
-//        String input;
-//
-//        do {
-//            System.out.print(prompt);
-//            input = scan.nextLine();
-//
-//            if (!input.trim().isEmpty()) {
-//                if (input.trim().length() != 10) {
-//                    System.out.println("\nIt should be 10 characters. Please enter again.\n");
-//                }
-//            } else {
-//                System.out.println("\nField cannot be empty. Please enter again.\n");
-//            }
-//
-//        } while (input.trim().isEmpty() || (input.trim().length() != 10));
-//        return input;
-//    }
-    public static String getValidatedStudId(String prompt) { //have problem in last few also can run
+    //=== validation for StudId ===
+    public static String getValidatedStudId(String prompt) {
         Scanner scan = new Scanner(System.in);
         String input;
 
@@ -703,9 +814,13 @@ public class StudentRegistration {
             System.out.print(prompt);
             input = scan.nextLine().toUpperCase(); // Convert to uppercase
 
-            // Check if the studGender is valid
-            if (input.contains("MALE") || input.contains("FEMALE")) {
-                break; // Valid input, break the loop
+            // Check if the input is 'M' or 'F' and translate to 'MALE' or 'FEMALE' respectively
+            if (input.equals("M")) {
+                input = "MALE";
+                break;
+            } else if (input.equals("F")) {
+                input = "FEMALE";
+                break;
             } else {
                 MessageUI.displayAddStudInvalidGender();
             }
@@ -714,7 +829,7 @@ public class StudentRegistration {
     }
 
     //=== validation for IC ===
-    public static String getValidatedIc(String prompt) { //have problem when put '-' in last few also can run
+    public static String getValidatedIc(String prompt) {
         Scanner scan = new Scanner(System.in);
         String input;
 
