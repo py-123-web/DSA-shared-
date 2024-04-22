@@ -12,7 +12,7 @@ public class TutorialGroupUI {
         Scanner scanner = new Scanner(System.in);
         int choice;
 
-               do {
+        do {
             // Display menu options
             System.out.println("");
             System.out.println("===============================================");
@@ -34,26 +34,28 @@ public class TutorialGroupUI {
             System.out.println("===============================================");
             System.out.print("\n Enter choice: ");
 
-            
-            
-            choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline character
+            try {
+                choice = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.err.println("Invalid input. Please enter a valid number.");
+                choice = -1; // Set choice to an invalid value to trigger the default case in the switch statement
+            }
 
             switch (choice) {
                 case 1:
-                   tutorialGroupSystem.addTutorialGroup();
-                        break;
+                    tutorialGroupSystem.addTutorialGroup();
+                    break;
                 case 2:
                     tutorialGroupSystem.deleteTutorialGroup();
                     break;
                 case 3:
-                   tutorialGroupSystem.amendTutorialGroup();
+                    tutorialGroupSystem.amendTutorialGroup();
                     break;
                 case 4:
                     tutorialGroupSystem.mergeTutorialGroup();
                     break;
                 case 5:
-                     tutorialGroupSystem.listTutorialGrpBasedOnProgrammes();
+                    tutorialGroupSystem.listTutorialGrpBasedOnProgrammes();
                     break;
                 case 6:
                     tutorialGroupSystem.generateTutorialGroupSummaryReport();
@@ -62,7 +64,7 @@ public class TutorialGroupUI {
                     tutorialGroupSystem.addStudentToTutorialGroup();
                     break;
                 case 8:
-                     tutorialGroupSystem.deleteStudentFromTutorialGroup();
+                    tutorialGroupSystem.deleteStudentFromTutorialGroup();
                     break;
                 case 9:
                     tutorialGroupSystem.amendStudentOfTutorialGroup();
@@ -75,6 +77,7 @@ public class TutorialGroupUI {
                     break;
                 case 12:
                     tutorialGroupSystem.generateStudentInTutorialGroupSummaryReport();
+                    break;
                 case 0:
                     System.out.println("Exiting program...");
                     break;
@@ -83,11 +86,11 @@ public class TutorialGroupUI {
             }
         } while (choice != 0);
 
-               
         // Close scanner after use
         scanner.close();
     }
 }
+
 
 
 
