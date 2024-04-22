@@ -5,6 +5,8 @@ import adt.*;
 
 import entity.*;
 import dao.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import utility.MessageUI;
 import java.util.Scanner;
 import java.util.Iterator;
@@ -306,56 +308,70 @@ public class TeachingController {
     }
 
     public void assignCourseToGrpTutor() {
-
-        displayCourses();
+        displayCourses(); // This should show all available courses.
         System.out.println("\nAssign Course to Group Tutor");
         System.out.println("==========================================");
-        System.out.print("Enter Your Course Code {0 to exit}: ");
+        System.out.print("Enter Your Course Code [0 to exit]: ");
         String courseCode = scanner.nextLine().toUpperCase().trim();
-        displayTutorsForCourse(courseCode);
+
         if (courseCode.equals("0")) {
-            System.out.println("Exiting assign");
+            System.out.println("Exiting assignment.");
             return;
         }
+
+        // Debug: Check if the course code is correct
+        System.out.println("Looking for Course Code: " + courseCode);
+
         Course selectedCourse = findCourseByCode(courseCode);
         if (selectedCourse == null) {
+            System.out.println("Error: Course not found. Entered Code: " + courseCode);
             MessageUI.displayCourseNotF();
             return;
         }
 
+        displayTutorsForCourse(courseCode); // Shows tutors assigned to this course, if any.
+
         displayTutorialGrp();
         System.out.println("\nAssign Course and Tutorial Group to Tutor");
         System.out.println("================================================");
-        System.out.print("Enter Tutorial Group Name [0 to exit] : ");
+        System.out.print("Enter Tutorial Group Name [0 to exit]: ");
         String tutorialGrpName = scanner.nextLine().toUpperCase().trim();
-        displayTutorialGrpDetails(tutorialGrpName);
+
         if (tutorialGrpName.equals("0")) {
-            System.out.println("Exiting assign");
-            return;
-        }
-        TutorialGroup selectedGrp = findTutorialGrpName(tutorialGrpName);
-        if (selectedGrp == null) {
-            System.out.println("Error: Group not found");
+            System.out.println("Exiting assignment.");
             return;
         }
 
-        displayTutor();
-        System.out.print("Enter Tutor ID [0 to exit]: ");
-        String tutorId = scanner.nextLine().toUpperCase().trim();
-        if (tutorId.equals("0")) {
-            System.out.println("Exiting assign");
+        TutorialGroup selectedGrp = findTutorialGrpName(tutorialGrpName);
+        if (selectedGrp == null) {
+            System.out.println("Error: Group not found with name: " + tutorialGrpName);
             return;
         }
+        displayTutorialGrpDetails(tutorialGrpName);
+
+        displayTutor(); // Shows all available tutors.
+        System.out.print("Enter Tutor ID [0 to exit]: ");
+        String tutorId = scanner.nextLine().toUpperCase().trim();
+
+        if (tutorId.equals("0")) {
+            System.out.println("Exiting assignment.");
+            return;
+        }
+
         Tutor selectedTutor = findTutorById(tutorId);
         if (selectedTutor == null) {
             MessageUI.displayNotFoundMessage();
             return;
         }
 
+        if (isGroupAssignedToTutor(selectedTutor, selectedGrp)) {
+            System.out.println("This tutor already handles this group. Please choose a different group.");
+            return; // Return to prevent looping or recursive call.
+        }
+
         addTutorToCourseAndGrp(selectedTutor, selectedCourse, selectedGrp);
         System.out.println("Tutorial group " + selectedGrp.getTutorialGroupName() + " successfully assigned to tutor " + selectedTutor.getTutorName() + "!");
         displayAssignmentDetails(selectedTutor, selectedCourse, selectedGrp);
-
     }
 
     public void addTutorToCourseAndGrp(Tutor tutor, Course course, TutorialGroup tutorialGrp) {
@@ -447,11 +463,15 @@ public class TeachingController {
                 System.out.println("Exiting assign");
                 return;
             }
-
+            int count = 0;
             TutorialGroup exitGrp = findTutorialGrpName(tutorialGrpName);
             if (exitGrp == null) {
                 System.out.println("Error: Group not found");
                 return;
+            }
+            if (isGroupAssignedToTutor(selectedTutor, exitGrp)) {
+                System.out.println("This tutor already handles this group. Please choose a different group.");
+                continue;  // Allows choosing a different group
             }
 
             addTutorialGrpToTutor(exitGrp, selectedTutor);
@@ -461,6 +481,19 @@ public class TeachingController {
             String answer = scanner.nextLine().trim().toLowerCase();
             continueAssigning = answer.equals("y");
         }
+    }
+
+    private boolean isGroupAssignedToTutor(Tutor tutor, TutorialGroup tutorialGroup) {
+        try {
+            for (TutorialGroup group : tutor.getTutorialGroupList()) {
+                if (group.getTutorialGroupName().equalsIgnoreCase(tutorialGroup.getTutorialGroupName())) {
+                    return true; // The group is already assigned to this tutor
+                }
+            }
+        } catch (NullPointerException ex) {
+            System.out.print("Error : " + ex.getMessage());
+        }
+        return false; // The group is not assigned to this tutor
     }
 
     private void displayTutorGroups(Tutor tutor) {
@@ -507,17 +540,14 @@ public class TeachingController {
 
     public void addTutorialGrpToTutor(TutorialGroup tutorialGrp, Tutor tutor) {
         refreshData();
+        if (this.tgI.getTutorialGrpList() == null) {
+            this.tGroupList = new SortedArrayList<>();
+        }
         tutor.addTutorialGroup(tutorialGrp);
         tutorialGrp.addTutor(tutor);
         tutorialGrp.setStatus("Assigned");
         tutor.setStatus("Active");
         System.out.println("Tutorial group " + tutorialGrp.getTutorialGroupName() + " successfully assigned to tutor " + tutor.getTutorName());
-
-        // Debugging outputs
-        System.out.println("Checking if group was added:");
-        for (TutorialGroup group : tutor.getTutorialGroupList()) {
-            System.out.println(" - " + group.getTutorialGroupName());
-        }
     }
 
     public void displayTutorialGrp() {
@@ -1056,58 +1086,56 @@ public class TeachingController {
             System.out.println("No tutors found.");
             return;
         }
-
-        System.out.println("\nTutor Details:");
-        System.out.println("==================================================================================================================================================================");
-        System.out.printf("%-10s %-20s %-6s %-15s %-25s %-30s %-32s %-20s\n", "ID", "Name", "Gender", "Category", "Email", "Courses Taught", "Tutorial Groups", "Status");
-        System.out.println("==================================================================================================================================================================");
-
-        Tutor previousTutor = null;
+;
+        System.out.println("Tutor Details:");
+        System.out.println("--------------------------------------------------");
         int count = 0;
-        // Loop over tutors
-        for (int i = 0; i < tutors.getNumberOfEntries(); i++) {
-            Tutor tutor = tutors.getEntry(i);
-            if (tutor == null) {
-                continue;
-            }
-
+        for (Tutor tutor : tutors) {
+            // Building the string for courses taught
+            StringBuilder coursesTaught = buildCoursesString(tutor.getCourseList());
             count++;
-            if (previousTutor != null && tutor.getTutorId().equals(previousTutor.getTutorId())) {
-                continue;
-            }
+            // Building the string for tutorial groups
+            StringBuilder tutorialGroups = buildGroupsString(tutor.getTutorialGroupList());
+            System.out.print("\nTutor No : " + count);
+            System.out.println("\nTutor ID: " + tutor.getTutorId());
+            System.out.println("Name: " + tutor.getTutorName());
+            System.out.println("Gender: " + (tutor.getTutorGender() != null ? tutor.getTutorGender().toString() : "Not specified"));
+            System.out.println("Category: " + tutor.getTutorCategory());
+            System.out.println("Email: " + tutor.getTutorEmail());
+            System.out.println("Courses Taught: " + coursesTaught + "        Newly assign : " + tutor.getCourse());
+            System.out.println("Tutorial Groups: " + tutorialGroups + "      Newly assign : " + tutor.getTutorialGroups());
+            System.out.println("Status: " + tutor.getStatus());
+            System.out.println("\n--------------------------------------------------");
 
-            StringBuilder coursesTaught = new StringBuilder();
-            SortedListInterface<Course> tutorCourses = tutor.getCourseList();
-            for (int j = 0; tutorCourses != null && j < tutorCourses.getNumberOfEntries(); j++) {
-                Course course = tutorCourses.getEntry(j);
-                if (course != null && !alreadyAdded(coursesTaught, course.getCourseName())) {
-                    if (coursesTaught.length() > 0) {
-                        coursesTaught.append(", ");
-                    }
-                    coursesTaught.append(course.getCourseName());
-                }
-            }
-
-            StringBuilder tutorialGroups = new StringBuilder();
-            SortedListInterface<TutorialGroup> assignedGroups = tutor.getTutorialGroupList();
-            for (TutorialGroup group : assignedGroups) {
-                if (!alreadyAdded(tutorialGroups, group.getTutorialGroupName())) {
-                    if (tutorialGroups.length() > 0) {
-                        tutorialGroups.append(", ");
-                    }
-                    tutorialGroups.append(group.getTutorialGroupName());
-                }
-            }
-
-            System.out.printf("%-10s %-20s %-6s %-15s %-25s %-30s %-32s %-20s\n", tutor.getTutorId(), tutor.getTutorName(), tutor.getTutorGender(), tutor.getTutorCategory(), tutor.getTutorEmail(), coursesTaught.toString(), tutorialGroups.toString(), tutor.getStatus());
-            System.out.println(tutor.getCourse());
-            System.out.println(tutor.getTutorialGroups());
-
-            previousTutor = tutor;
         }
+    }
 
-        System.out.println("==================================================================================================================================================================");
-        System.out.println("Total Tutors: " + count);
+    private StringBuilder buildCoursesString(SortedListInterface<Course> courses) {
+        StringBuilder builder = new StringBuilder("None");
+        if (courses != null && !courses.isEmpty()) {
+            builder.setLength(0); // Clear "None" if there are courses
+            for (Course course : courses) {
+                if (builder.length() > 0) {
+                    builder.append(", ");
+                }
+                builder.append(course.getCourseName());
+            }
+        }
+        return builder;
+    }
+
+    private StringBuilder buildGroupsString(SortedListInterface<TutorialGroup> groups) {
+        StringBuilder builder = new StringBuilder("None");
+        if (groups != null && !groups.isEmpty()) {
+            builder.setLength(0); // Clear "None" if there are groups
+            for (TutorialGroup group : groups) {
+                if (builder.length() > 0) {
+                    builder.append(", ");
+                }
+                builder.append(group.getTutorialGroupName());
+            }
+        }
+        return builder;
     }
 
     private boolean alreadyAdded(StringBuilder builder, String itemName) {
@@ -1499,16 +1527,18 @@ public class TeachingController {
     }
 
     private Tutor findTutorWithMostGroups() {
-        refreshData();  // Make sure the data is up-to-date
-        Iterator<Tutor> iterator = tutorList.iterator();
+        refreshData();  // Ensure all data is up to date
         Tutor maxTutor = null;
         int maxGroups = 0;
 
-        while (iterator.hasNext()) {
-            Tutor tutor = iterator.next();
-            int groupCount = tutor.getTutorialGroupList().getNumberOfEntries();
-            System.out.println(tutor.getTutorName() + " manages " + groupCount + " groups.");
+        SortedListInterface<Tutor> tutorList = ctI.getTutorList();
+        if (tutorList == null || tutorList.isEmpty()) {
+            System.out.println("Tutor list is empty or not initialized.");
+            return null;
+        }
 
+        for (Tutor tutor : tutorList) {
+            int groupCount = (tutor.getTutorialGroupList() != null) ? tutor.getTutorialGroupList().getNumberOfEntries() : 0;
             if (groupCount > maxGroups) {
                 maxGroups = groupCount;
                 maxTutor = tutor;
@@ -1516,13 +1546,20 @@ public class TeachingController {
         }
 
         if (maxTutor != null) {
-            System.out.println("Tutor with most groups: " + maxTutor.getTutorName() + " with " + maxGroups + " groups.");
+            System.out.println("Tutor with the most groups: " + maxTutor.getTutorName() + " with " + maxGroups + " groups.");
+        } else {
+            System.out.println("No tutor has tutorial groups assigned.");
         }
 
         return maxTutor;
     }
 
     private TutorialGroup findTutorialGroupWithNoTutor() {
+        if (tGroupList == null || tGroupList.isEmpty()) {
+            System.out.println("No tutorial groups initialized or available.");
+            return null;
+        }
+
         for (TutorialGroup group : tGroupList) {
             if (group.getTutor() == null || group.getTutor().isEmpty()) {
                 return group;
@@ -1534,10 +1571,16 @@ public class TeachingController {
 
     public void generateReport() {
         refreshData(); // Make sure the data is updated
-
-        System.out.println("\nDetailed Academic Report:");
+        LocalDateTime reportDateTime = LocalDateTime.now();
+        System.out.println("                 --------------------------------------------------------------");
+        System.out.println("\n                Tunku Abdul Rahman University of Management and Technology");
+        System.out.println("                             Teaching Subsystem");
+        System.out.println("                 -------------------------------------------------------------");
+        System.out.println("\nGenerated at: " + reportDateTime.format(DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy, hh:mm a")));
+        System.out.println("------------------------------------------------------------");
+        System.out.println("\nSummary Report:");
         System.out.println("============================================================");
-
+        displayAllTutors();
         // Summary Section
         System.out.println("Summary:");
         System.out.println("------------------------------------------------------------");
@@ -1552,23 +1595,75 @@ public class TeachingController {
         displayTutorGroupSummary();
         displayCourseTutorSummary();
         displayTutorialGroupDetails();
+    }
 
-        // Detailed listings of all tutors, courses, and groups
-        displayTutor();
-        displayCourses();
-        displayTutorialGrp();
+    public void displayAllTutors() {
+        SortedListInterface<Tutor> tutors = ctI.getTutorList();  // Retrieve the tutor list from TutorInitializer
+        if (tutors == null || tutors.isEmpty()) {
+            System.out.println("No tutors available.");
+            return;
+        }
+
+        System.out.println("\nAll Tutor Details:");
+        System.out.println("===================================================================================================================================");
+        System.out.println("| Tutor ID | Tutor Name           | Email                 | Gender | Status    | Courses Taught       | Tutorial Groups Handled |");
+        System.out.println("===================================================================================================================================");
+
+        Iterator<Tutor> iterator = tutors.iterator();
+        while (iterator.hasNext()) {
+            Tutor tutor = iterator.next();
+            System.out.printf("| %-8s | %-21s | %-20s | %-6s | %-9s |",
+                    tutor.getTutorId(), tutor.getTutorName(), tutor.getTutorEmail(), tutor.getTutorGender(), tutor.getStatus());
+
+            // Courses
+            StringBuilder courses = new StringBuilder();
+            if (tutor.getCourseList() != null) {
+                Iterator<Course> courseIterator = tutor.getCourseList().iterator();
+                while (courseIterator.hasNext()) {
+                    Course course = courseIterator.next();
+                    if (courses.length() > 0) {
+                        courses.append(", ");
+                    }
+                    courses.append(course.getCourseCode());
+                }
+            }
+            if (courses.toString().isEmpty()) {
+                courses.append("None");
+            }
+
+            // Tutorial Groups
+            StringBuilder groups = new StringBuilder();
+            if (tutor.getTutorialGroupList() != null) {
+                Iterator<TutorialGroup> groupIterator = tutor.getTutorialGroupList().iterator();
+                while (groupIterator.hasNext()) {
+                    TutorialGroup group = groupIterator.next();
+                    if (groups.length() > 0) {
+                        groups.append(", ");
+                    }
+                    groups.append(group.getTutorialGroupName());
+                }
+            }
+            if (groups.toString().isEmpty()) {
+                groups.append("None");
+            }
+
+            System.out.printf(" %-22s | %-26s |\n", courses.toString(), groups.toString());
+            System.out.println(tutor.getCourse());
+            System.out.println(tutor.getTutorialGroups());
+        }
+        System.out.println("===================================================================================================================================");
     }
 
     private void displayTutorGroupSummary() {
         Tutor maxTutor = findTutorWithMostGroups();
-        System.out.println("\nTutor with Most Groups:");
+        System.out.println("\nTutor with the most tutorial groups");
         System.out.println("---------------------------------------------");
-        System.out.println("| Tutor Name           | Number of Groups   |");
+        System.out.println("| Tutor Name            | Number of Groups  |");
         System.out.println("---------------------------------------------");
         if (maxTutor != null) {
             System.out.printf("| %-20s | %-18d |%n", maxTutor.getTutorName(), maxTutor.getTutorialGroupList().getNumberOfEntries());
         } else {
-            System.out.println("| No tutors are assigned to any groups.      |");
+            System.out.println("| No tutor has tutorial groups assigned.     |");
         }
         System.out.println("---------------------------------------------");
         pause();
@@ -1590,38 +1685,36 @@ public class TeachingController {
     }
 
     private void displayTutorialGroupDetails() {
+        System.out.println("\nTutorial Groups with No Tutor Assigned:");
+        System.out.println("--------------------------------------------------");
+
+        if (tGroupList == null || tGroupList.isEmpty()) {
+            System.out.println("| No tutorial groups available or list not initialized. |");
+            System.out.println("--------------------------------------------------");
+            pause(); // Method to pause the display for readability
+            return;
+        }
+
         try {
-            System.out.println("\nTutorial Groups with No Tutor Assigned:");
-            System.out.println("---------------------------------------------");
-            System.out.println("| Group Name                                |");
-            System.out.println("---------------------------------------------");
+            boolean foundUnassignedGroup = false;
 
-            // Check if the list itself is not initialized
-            if (tGroupList == null || tGroupList.getNumberOfEntries() == 0) {
-                System.out.println("| No tutorial groups available or list not initialized. |");
-                return;
-            }
-
-            boolean foundGroupWithoutTutor = false;
             for (int i = 1; i <= tGroupList.getNumberOfEntries(); i++) {
                 TutorialGroup group = tGroupList.getEntry(i);
-                // Safeguard against null groups in the list
                 if (group != null && (group.getTutor() == null || group.getTutor().isEmpty())) {
-                    System.out.printf("| %-41s |%n", group.getTutorialGroupName());
-                    foundGroupWithoutTutor = true;
+                    System.out.printf("| %-47s |\n", group.getTutorialGroupName());
+                    foundUnassignedGroup = true;
                 }
             }
 
-            if (!foundGroupWithoutTutor) {
+            if (!foundUnassignedGroup) {
                 System.out.println("| All tutorial groups have tutors assigned. |");
             }
-        } catch (NullPointerException ex) {
-            System.out.println("An unexpected error occurred: " + ex.getMessage());
-            // Optionally, log the stack trace or handle the exception in another way
-        } finally {
-            System.out.println("---------------------------------------------");
-            pause();
+        } catch (Exception ex) {
+            System.out.println("An error occurred while processing tutorial groups: " + ex.getMessage());
         }
+
+        System.out.println("--------------------------------------------------");
+        pause(); // Method to pause the display for readability
     }
 
     private void pause() {
@@ -1630,9 +1723,9 @@ public class TeachingController {
     }
 
     public static void main(String[] args) {
-
         TeachingController teachingMaintainance = new TeachingController();
-        teachingMaintainance.runTutortMaintenance(); // Corrected method invocation
+        teachingMaintainance.runTutortMaintenance();
 
     }
 }
+
