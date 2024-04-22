@@ -85,7 +85,7 @@ public class TutorialGroupController {
             
             // Check if tutorial group name already exists
             if (isDuplicateTutorialGroupName(tutorialGroupName)) {
-                System.out.println("Error: Tutorial Group Name already exists.");
+                System.err.println("Error: Tutorial Group Name already exists.");
                 System.out.print("Do you want to add a new tutorial group? (Yes/No): ");
                 String response = scanner.nextLine();
                 if (!response.equalsIgnoreCase("yes")) {
@@ -102,7 +102,7 @@ public class TutorialGroupController {
                     groupNo = Integer.parseInt(scanner.nextLine());
                     validInput = true;
                 } catch (NumberFormatException e) {
-                    System.out.println("Error: Invalid input. Please enter a valid integer for Group Number.");
+                    System.err.println("Error: Invalid input. Please enter a valid integer for Group Number.");
                 }
             }
 
@@ -117,7 +117,7 @@ public class TutorialGroupController {
                 addTutorialGrpToProgramme(selectedProgramme, newTutorialGrp);
                 System.out.println("Tutorial group added successfully to the programme!");
             } else {
-                System.out.println("Error: Programme not found.");
+                System.err.println("Error: Programme not found.");
             }
 
             System.out.print("Do you want to add another tutorial group? (Yes/No): ");
@@ -144,7 +144,7 @@ public class TutorialGroupController {
                     String programmeCode = scanner.nextLine();
 
                       if (!isValidProgrammeCode(programmeCode)) {
-                        System.out.println("Error: Invalid programme code. Please enter a valid code.");
+                        System.err.println("Error: Invalid programme code. Please enter a valid code.");
                         continue; // Restart the loop to prompt for another programme code
                     }
                       
@@ -164,7 +164,7 @@ public class TutorialGroupController {
                         SortedListInterface<TutorialGroup> associatedTutorialGrps = tutorialGrpList;
 
                         if (associatedTutorialGrps.isEmpty()) {
-                            System.out.println("No tutorial groups available for this programme.");
+                            System.err.println("No tutorial groups available for this programme.");
                             continue; // Restart the loop to prompt for another programme code
                         }
 
@@ -182,7 +182,7 @@ public class TutorialGroupController {
                         }
                         System.out.println("----------------------------------------------");
                     } else {
-                        System.out.println("Error: Programme not found.");
+                        System.err.println("Error: Programme not found.");
                     }
 
                     System.out.print("Do you want to see tutorial groups for other programmes? (Yes/No): ");
@@ -217,7 +217,7 @@ public class TutorialGroupController {
         String programmeCode = scanner.nextLine().trim(); // Trim input
 
          if (!isValidProgrammeCode(programmeCode)) {
-                        System.out.println("Error: Invalid programme code. Please enter a valid code.");
+                        System.err.println("Error: Invalid programme code. Please enter a valid code.");
                         continue; // Restart the loop to prompt for another programme code
                     }
         Programme selectedProgramme = null;
@@ -240,7 +240,7 @@ public class TutorialGroupController {
             }
 
             if (associatedTutorialGrps.isEmpty()) {
-                System.out.println("No tutorial groups available for this programme.");
+                System.err.println("No tutorial groups available for this programme.");
                 continue; // Restart the loop to prompt for another programme code
             }
 
@@ -272,10 +272,10 @@ public class TutorialGroupController {
                     tutorialGrpList.add(tutorialGrp);
                 }
             } else {
-                System.out.println("Error: Tutorial group not found or name mismatch.");
+                System.err.println("Error: Tutorial group not found or name mismatch.");
             }
         } else {
-            System.out.println("Error: Programme not found.");
+            System.err.println("Error: Programme not found.");
         }
 
         deleteAgain = false; // Exit the loop after deleting one tutorial group
@@ -322,7 +322,7 @@ public void amendTutorialGroup() {
             }
 
             if (associatedTutorialGrps.isEmpty()) {
-                System.out.println("No tutorial groups available for this programme.");
+                System.err.println("No tutorial groups available for this programme.");
                 continue; // Restart the loop to prompt for another programme code
             }
 
@@ -361,7 +361,7 @@ public void amendTutorialGroup() {
                     if (!isDuplicateTutorialGroupName(newTutorialGroupName)) {
                         isValidNewGroupName = true; // Exit the loop if the name is valid
                     } else {
-                        System.out.println("Error: Tutorial Group Name already exists.");
+                        System.err.println("Error: Tutorial Group Name already exists.");
                         System.out.print("Do you want to enter a different name? (Yes/No): ");
                         String response = scanner.nextLine();
                         if (!response.equalsIgnoreCase("yes")) {
@@ -384,10 +384,10 @@ public void amendTutorialGroup() {
 
                 System.out.println("Tutorial group amended successfully.");
             } else {
-                System.out.println("Error: Tutorial group not found or name mismatch.");
+                System.err.println("Error: Tutorial group not found or name mismatch.");
             }
         } else {
-            System.out.println("Error: Programme not found.");
+            System.err.println("Error: Programme not found.");
         }
 
         amendAgain = false; // Exit the loop after amending one tutorial group
@@ -415,7 +415,7 @@ public void addStudentToTutorialGroup() {
 
         // Check if the programme code is in the correct format (e.g., ABC)
         if (!programmeCode.matches("[A-Za-z]{3}")) {
-            System.out.println("Error: Programme code must be in the format ABC.");
+            System.err.println("Error: Programme code must be in the format ABC.");
             continue; // Restart the loop to prompt for another programme code
         }
 
@@ -431,7 +431,7 @@ public void addStudentToTutorialGroup() {
         }
 
         if (associatedTutorialGrps.isEmpty()) {
-            System.out.println("No tutorial groups available for this programme.");
+            System.err.println("No tutorial groups available for this programme.");
             continue;
         }
 
@@ -447,7 +447,7 @@ public void addStudentToTutorialGroup() {
 
         TutorialGroup selectedTutorialGrp = findTutorialGroupByName(associatedTutorialGrps, tutorialGroupName);
         if (selectedTutorialGrp == null) {
-            System.out.println("Error: Tutorial group not found in this programme.");
+            System.err.println("Error: Tutorial group not found in this programme.");
             continue;
         }
 
@@ -456,7 +456,7 @@ public void addStudentToTutorialGroup() {
         do {
             System.out.print("Enter Number of Students: ");
             while (!scanner.hasNextInt()) {
-                System.out.println("Error: Invalid input. Please enter a valid number.");
+                System.err.println("Error: Invalid input. Please enter a valid number.");
                 scanner.next(); // Consume invalid input
             }
             noOfStudents = scanner.nextInt();
@@ -492,7 +492,7 @@ public void deleteStudentFromTutorialGroup() {
         
         // Check if the programme code is in the correct format (e.g., ABC)
         if (!programmeCode.matches("[A-Za-z]{3}")) {
-            System.out.println("Error: Programme code must be in the format ABC.");
+            System.err.println("Error: Programme code must be in the format ABC.");
             continue; // Restart the loop to prompt for another programme code
         }
 
@@ -503,7 +503,7 @@ public void deleteStudentFromTutorialGroup() {
             SortedListInterface<TutorialGroup> associatedTutorialGrps = tutorialGrpList;
 
             if (associatedTutorialGrps.isEmpty()) {
-                System.out.println("No tutorial groups available for this programme.");
+                System.err.println("No tutorial groups available for this programme.");
                 continue;
             }
 
@@ -533,7 +533,7 @@ public void deleteStudentFromTutorialGroup() {
 
                 if (!studentList.isEmpty()) {
                     for (Student student : selectedTutorialGrp.getEnrolledStudents()) {
-                        System.out.println(student);
+//                        System.out.println(student);
                     }
                     int noOfStudents = selectedTutorialGrp.getNoOfStudent();
                     if (noOfStudents > 0) {
@@ -561,7 +561,7 @@ public void deleteStudentFromTutorialGroup() {
 
                             // Validate student ID format
                             if (!studentIdToDelete.matches("\\d{2}[A-Z]{3}\\d{5}")) {
-                                System.out.println("Error: Invalid student ID format. Please enter a student ID like '20WMR23003'.");
+                                System.err.println("Error: Invalid student ID format. Please enter a student ID like '20WMR23003'.");
                             } else {
                                 validIdFormat = true;
                             }
@@ -585,22 +585,22 @@ public void deleteStudentFromTutorialGroup() {
                                     }
                                 }
                             } else {
-                                System.out.println("Error: Failed to delete student.");
+                                System.err.println("Error: Failed to delete student.");
                             }
                         } else {
-                            System.out.println("Error: Student not found in " + selectedTutorialGrp.getTutorialGroupName());
+                            System.err.println("Error: Student not found in " + selectedTutorialGrp.getTutorialGroupName());
                         }
                     } else {
-                        System.out.println("No students enrolled in Tutorial Group " + selectedTutorialGrp.getTutorialGroupName());
+                        System.err.println("No students enrolled in Tutorial Group " + selectedTutorialGrp.getTutorialGroupName());
                     }
                 } else {
-                    System.out.println("Error: No students in " + selectedTutorialGrp.getTutorialGroupName());
+                    System.err.println("Error: No students in " + selectedTutorialGrp.getTutorialGroupName());
                 }
             } else {
-                System.out.println("Error: Tutorial Group not found in this programme.");
+                System.err.println("Error: Tutorial Group not found in this programme.");
             }
         } else {
-            System.out.println("Error: Programme not found.");
+            System.err.println("Error: Programme not found.");
         }
 
         System.out.print("Do you want to delete a student from another Tutorial Group? (Yes/No): ");
@@ -644,7 +644,7 @@ private TutorialGroup findTutorialGroupByName(SortedListInterface<TutorialGroup>
         
         // Check if the programme code is in the correct format (e.g., ABC)
         if (!programmeCode.matches("[A-Za-z]{3}")) {
-            System.out.println("Error: Programme code must be in the format ABC.");
+            System.err.println("Error: Programme code must be in the format ABC.");
             continue; // Restart the loop to prompt for another programme code
         }
         Programme selectedProgramme = findProgrammeByCode(programmeCode);
@@ -654,7 +654,7 @@ private TutorialGroup findTutorialGroupByName(SortedListInterface<TutorialGroup>
             SortedListInterface<TutorialGroup> associatedTutorialGrps = tutorialGrpList;
 
             if (associatedTutorialGrps.isEmpty()) {
-                System.out.println("No tutorial groups available for this programme.");
+                System.err.println("No tutorial groups available for this programme.");
                 continue;
             }
 
@@ -679,12 +679,12 @@ private TutorialGroup findTutorialGroupByName(SortedListInterface<TutorialGroup>
                 if (selectedTutorialGrp != null) {
                     tutorialGroupsToMerge.add(selectedTutorialGrp);
                 } else {
-                    System.out.println("Error: Tutorial Group '" + tutorialGroupName.trim() + "' not found in this programme.");
+                    System.err.println("Error: Tutorial Group '" + tutorialGroupName.trim() + "' not found in this programme.");
                 }
             }
             
             if (tutorialGroupsToMerge.getNumberOfEntries() < 2) {
-                System.out.println("Error: You need to select at least two Tutorial Groups to merge.");
+                System.err.println("Error: You need to select at least two Tutorial Groups to merge.");
             } 
             else 
             {
@@ -718,11 +718,11 @@ private TutorialGroup findTutorialGroupByName(SortedListInterface<TutorialGroup>
                     
                     
                 } else {
-                    System.out.println("Error: Failed to merge tutorial groups.");
+                    System.err.println("Error: Failed to merge tutorial groups.");
                 }
             } 
         } else {
-            System.out.println("Error: Programme not found.");
+            System.err.println("Error: Programme not found.");
         }
 
         System.out.print("Do you want to merge Tutorial Groups in another Programme? (Yes/No): ");
@@ -760,7 +760,7 @@ public void listStudentsInEachTutorialGrp() {
             SortedListInterface<TutorialGroup> associatedTutorialGrps = tutorialGrpList;
 
             if (associatedTutorialGrps.isEmpty()) {
-                System.out.println("No tutorial groups available for this programme.");
+                System.err.println("No tutorial groups available for this programme.");
                 continue;
             }
 
@@ -784,7 +784,7 @@ public void listStudentsInEachTutorialGrp() {
                 }
                 System.out.println("----------------------------------------------");
             } else {
-                System.out.println("Error: No tutorial group found for the selected programme.");
+                System.err.println("Error: No tutorial group found for the selected programme.");
             }
 
             System.out.print("\nEnter Tutorial Group Name to display students: ");
@@ -803,11 +803,7 @@ public void listStudentsInEachTutorialGrp() {
 
             if (selectedTutorialGrp != null) {
                 SortedListInterface<Student> studentList = studentInitializer.initializeStudent();
-//                System.out.println("\nUpdated Students in Tutorial Group " + selectedTutorialGrp.getTutorialGroupName() + ":");
-//                System.out.printf("%-10s  %-20s %-15s %10s  %-15s %-30s %-50s\n",
-//                        "ID", "Name", "IC", "Gender", "Contact No", "Email", "Address");
                 for (Student student : selectedTutorialGrp.getEnrolledStudents()) {
-//                    System.out.println(student);
                 }
                 int noOfStudents = selectedTutorialGrp.getNoOfStudent();
                 if (noOfStudents > 0) {
@@ -830,10 +826,10 @@ public void listStudentsInEachTutorialGrp() {
                     System.out.println("No students enrolled in Tutorial Group " + selectedTutorialGrp.getTutorialGroupName());
                 }
             } else {
-                System.out.println("Error: Tutorial Group not found in this programme.");
+                System.err.println("Error: Tutorial Group not found in this programme.");
             }
         } else {
-            System.out.println("Error: Programme not found.");
+            System.err.println("Error: Programme not found.");
         }
 
         System.out.print("Do you want to see students for other Tutorial Group? (Yes/No): ");
@@ -846,7 +842,7 @@ public void listStudentsInEachTutorialGrp() {
        
         
         if (tutorialGroupsToMerge.isEmpty() || tutorialGroupsToMerge.getNumberOfEntries() < 2) {
-            System.out.println("Error: At least two Tutorial Groups are required to merge.");
+            System.err.println("Error: At least two Tutorial Groups are required to merge.");
             return null;  
         }
         
@@ -892,7 +888,7 @@ public void listStudentsInEachTutorialGrp() {
                     SortedListInterface<TutorialGroup> associatedTutorialGrps = tutorialGrpList;
 
                     if (associatedTutorialGrps.isEmpty()) {
-                        System.out.println("No tutorial groups available for this programme.");
+                        System.err.println("No tutorial groups available for this programme.");
                         continue; // Restart the loop to prompt for another programme code
                     }
 
@@ -928,12 +924,12 @@ public void listStudentsInEachTutorialGrp() {
                         }
                         tutorialGroupToAmend.setNoOfStudent(newNoOfStudent);
 
-                        System.out.println("Tutorial group amended successfully.");
+                        System.err.println("Tutorial group amended successfully.");
                     } else {
-                        System.out.println("Error: Tutorial group not found or name mismatch.");
+                        System.err.println("Error: Tutorial group not found or name mismatch.");
                     }
                 } else {
-                    System.out.println("Error: Programme not found.");
+                    System.err.println("Error: Programme not found.");
                 }
 
                 amendAgain = false; // Exit the loop after amending one tutorial group
@@ -962,7 +958,7 @@ public void changeStudentOfTutorialGroup() {
 
         // Check if the programme code is in the correct format (e.g., ABC)
         if (!programmeCode.matches("[A-Za-z]{3}")) {
-            System.out.println("Error: Programme code must be in the format ABC.");
+            System.err.println("Error: Programme code must be in the format ABC.");
             continue; // Restart the loop to prompt for another programme code
         }
         
@@ -973,7 +969,7 @@ public void changeStudentOfTutorialGroup() {
             SortedListInterface<TutorialGroup> associatedTutorialGrps = tutorialGrpList;
 
             if (associatedTutorialGrps.isEmpty()) {
-                System.out.println("No tutorial groups available for this programme.");
+                System.err.println("No tutorial groups available for this programme.");
                 continue;
             }
 
@@ -1025,7 +1021,7 @@ public void changeStudentOfTutorialGroup() {
 
                         // Validate student ID format
                         if (!studentIdToMove.matches("\\d{2}[A-Z]{3}\\d{5}")) {
-                            System.out.println("Error: Invalid student ID format. Please enter a student ID like '20WMR23003'.");
+                            System.err.println("Error: Invalid student ID format. Please enter a student ID like '20WMR23003'.");
                         } else {
                             validIdFormat = true;
                         }
@@ -1064,19 +1060,19 @@ public void changeStudentOfTutorialGroup() {
                             sourceTutorialGrp.getEnrolledStudents().remove(studentToRemove);
                             sourceTutorialGrp.setNoOfStudent(sourceTutorialGrp.getNoOfStudent() - 1);
                         } else {
-                            System.out.println("Error: Destination Tutorial Group not found in this programme.");
+                            System.err.println("Error: Destination Tutorial Group not found in this programme.");
                         }
                     } else {
-                        System.out.println("Error: Student not found in " + sourceTutorialGrp.getTutorialGroupName());
+                        System.err.println("Error: Student not found in " + sourceTutorialGrp.getTutorialGroupName());
                     }
                 } else {
-                    System.out.println("Error: No students in " + sourceTutorialGrp.getTutorialGroupName());
+                    System.err.println("Error: No students in " + sourceTutorialGrp.getTutorialGroupName());
                 }
             } else {
-                System.out.println("Error: Source Tutorial Group not found in this programme.");
+                System.err.println("Error: Source Tutorial Group not found in this programme.");
             }
         } else {
-            System.out.println("Error: Programme not found.");
+            System.err.println("Error: Programme not found.");
         }
 
         System.out.print("Do you want to move a student from another Tutorial Group? (Yes/No): ");
