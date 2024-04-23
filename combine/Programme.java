@@ -4,33 +4,32 @@ package entity;
  * @author USER Low Jia Yu & Hor Pei Yu
  */
 import adt.*; 
-import java.util.Iterator;
 import java.util.Objects;
 
-public class Programme implements Comparable<Programme>, Iterable<TutorialGroup> {
-    private String progCode;
-    private String progName;
+public class Programme implements Comparable<Programme>{
+    private String programmeCode;
+    private String programmeName;
     private SortedArrayList<TutorialGroup> tutorialGroups; // Changed to SortedArrayList
 
-    public Programme(String progCode, String progName) {
-        this.progCode = progCode;
-        this.progName = progName;
+    public Programme(String programmeCode, String programmeName) {
+        this.programmeCode = programmeCode;
+        this.programmeName = programmeName;
         this.tutorialGroups = new SortedArrayList<>(); // Initialize the SortedArrayList
     }
-    public String getProgCode() {
-        return progCode;
+    public String getProgrammeCode() {
+        return programmeCode;
     }
 
-    public void setProgCode(String progCode) {
-        this.progCode = progCode;
+    public void setProgrammeCode(String progCode) {
+        this.programmeCode = progCode;
     }
 
-    public String getProgName() {
-        return progName;
+    public String getProgrammeName() {
+        return programmeName;
     }
 
-    public void setProgName(String progName) {
-        this.progName = progName;
+    public void setProgrammeName(String progName) {
+        this.programmeName = progName;
     }
 
     public SortedListInterface<TutorialGroup> getTutorialGroups() {
@@ -50,22 +49,17 @@ public class Programme implements Comparable<Programme>, Iterable<TutorialGroup>
     public void removeTutorialGroup(TutorialGroup tutorialGrp) {
         tutorialGroups.remove(tutorialGrp);
     }
-    
-    public Programme(String progCode) {
-        this.progCode = progCode;
-        // this.courseList = new SortedArrayList<>();
-    }
 
     @Override
     public String toString() {
         return String.format("%-10s %-20s %-15s",
-                progCode, progName, tutorialGroups);
+                programmeCode, programmeName, tutorialGroups);
     }
 
     @Override
     public int compareTo(Programme otherProg) {
         // Compare based on studId or any other attribute that defines the natural order
-        return this.progCode.compareTo(otherProg.progCode);
+        return this.programmeCode.compareTo(otherProg.programmeCode);
     }
 
     @Override
@@ -73,13 +67,8 @@ public class Programme implements Comparable<Programme>, Iterable<TutorialGroup>
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Programme prog = (Programme) o;
-        return Objects.equals(progCode, prog.progCode);
+        return Objects.equals(programmeCode, prog.programmeCode);
     }
 
-
-    // Implement Iterable
-    @Override
-    public Iterator<TutorialGroup> iterator() {
-        return tutorialGroups.iterator();
-    }
 }
+
