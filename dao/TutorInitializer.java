@@ -1,8 +1,7 @@
-
 package dao;
 
 import adt.*;
-import static dao.ProgrammeInitializer.programmeList;
+import static dao.CourseInitializer.courseList;
 import static dao.TutorialGrpInitializer.TutorialGrpList;
 import entity.Course;
 import entity.Tutor;
@@ -15,63 +14,15 @@ import java.util.Iterator;
  */
 public class TutorInitializer {
 
-    private SortedListInterface<Tutor> tutorList;
-    private SortedListInterface<Course> cList = new SortedArrayList<>();
-    private SortedListInterface<Course> cList1 = new SortedArrayList<>();
-    private SortedListInterface<Course> cList2 = new SortedArrayList<>();
-    private SortedListInterface<Course> cList3 = new SortedArrayList<>();
-    private SortedListInterface<Course> cList4 = new SortedArrayList<>();
-    
-    private SortedListInterface<TutorialGroup> tGroupList = new SortedArrayList<>();
-    private SortedListInterface<TutorialGroup> tGroupList1 = new SortedArrayList<>();
-    private SortedListInterface<TutorialGroup> tGroupList2 = new SortedArrayList<>();
-    private SortedListInterface<TutorialGroup> tGroupList3 = new SortedArrayList<>();
-    private SortedListInterface<TutorialGroup> tGroupList4 = new SortedArrayList<>();
-    private SortedListInterface<TutorialGroup> pList = new SortedArrayList<>();
-    private Tutor tutor;
-    private Course course;
-    private boolean initialized = false;
-    
-
-    public TutorInitializer() {
-        if (!initialized) {
-            this.tutorList = new SortedArrayList<>();
-            this.cList = new SortedArrayList<>();
-            this.pList = new SortedArrayList<>();
-            this.tGroupList = new SortedArrayList<>();
-            initializeTutor();
-            initialized = true;
-        }
-    }
-
-    public TutorInitializer(SortedListInterface<Tutor> tutorList,
-            SortedListInterface<Course> cList,
-            SortedListInterface<TutorialGroup> tGroupList) {
-        this.tutorList = tutorList;
-        this.cList = cList;
-        this.tGroupList = tGroupList;
-
-    }
+    public static SortedArrayList<Tutor> tutorList = new SortedArrayList<>();
 
     public SortedListInterface<Tutor> initializeTutor() {
-        
-        cList.add(new Course("BACS2063", "DATA STRUCTURE AND ALGORITHM", "LECTURE", "YEAR 3 SEM 3", 3, "FOCS", 777.00, "REI", "Main"));
-        cList1.add(new Course("BAIT1093", "STATISTIC", "TUTORIAL", "YEAR 3 SEM 3", 3, "FOCS", 777.00, "REI", "Main"));
-        cList2.add(new Course("BAIT1083", "VISUAL PROGRAMMING", "PRACTICAL", "YEAR 3 SEM 2", 3, "FOCS", 777.00, "REI", "Repeat"));
-        cList3.add(new Course("BACS2003", "ARTIFICIAL INTELLIGENCE", "LECTURE", "YEAR 3 SEM 3", 3, "FOCS", 777.00, "RSW", "Main"));
-        cList4.add(new Course("BACS2033", "DATA WAREHOUSE", "PRACTICAL", "YEAR 3 SEM 3", 3, "FOCS", 777.00, "RSD", "Main"));
-        
-        tGroupList.add(new TutorialGroup("RSWG1", 1, 13, programmeList.getEntry(0)));
-        tGroupList1.add(new TutorialGroup("RE1G1", 2, 17, programmeList.getEntry(0)));
-        tGroupList2.add(new TutorialGroup("RSDG1", 3, 18, programmeList.getEntry(0)));
-        tGroupList3.add(new TutorialGroup("RSDG2", 4, 12, programmeList.getEntry(0)));
-        tGroupList4.add(new TutorialGroup("REIG2", 5, 19, programmeList.getEntry(0)));
-        
-        tutorList.add(new Tutor("T0001", "SHOONG WAI KIN", "p2023@tarc.edu.my", 'M', "Full Time", "Assigned", cList, tGroupList));
-        tutorList.add(new Tutor("T0002", "YEOH KAR PENG", "p2020@tarc.edu.my", 'F', "Part Time", "Assigned", cList1, tGroupList1));
-        tutorList.add(new Tutor("T0003", "Thamarai Subramaniam", "p2021@tarc.edu.my", 'F', "Full Time", "Assigned", cList2,tGroupList2 ));
-        tutorList.add(new Tutor("T0004", "LAI JOO CHOI", "p2001@tarc.edu.my", 'F', "Full Time", "Assigned", cList3, tGroupList3));
-        tutorList.add(new Tutor("T0005", "CHOONG YUN LOONG", "p2010@tarc.edu.my", 'F', "Part Time", "Assigned", cList4, tGroupList4));
+
+        tutorList.add(new Tutor("T0001", "SHOONG WAI KIN", "p2023@tarc.edu.my", 'M', "Full Time", "Assigned", courseList.getEntry(0), TutorialGrpList.getEntry(0)));
+        tutorList.add(new Tutor("T0002", "YEOH KAR PENG", "p2020@tarc.edu.my", 'F', "Part Time", "Assigned", courseList.getEntry(1), TutorialGrpList.getEntry(1)));
+        tutorList.add(new Tutor("T0003", "Thamarai Subramaniam", "p2021@tarc.edu.my", 'F', "Full Time", "Assigned", courseList.getEntry(2), TutorialGrpList.getEntry(2)));
+        tutorList.add(new Tutor("T0004", "LAI JOO CHOI", "p2001@tarc.edu.my", 'M', "Full Time", "Assigned", courseList.getEntry(3), TutorialGrpList.getEntry(3)));
+        tutorList.add(new Tutor("T0005", "CHOONG YUN LOONG", "p2010@tarc.edu.my", 'M', "Part Time", "Assigned", courseList.getEntry(4), TutorialGrpList.getEntry(4)));
         return tutorList;
     }
 
@@ -105,15 +56,15 @@ public class TutorInitializer {
 //        tGroupList.add(new TutorialGroup("G2", 20));
 //        tGroupList.add(new TutorialGroup("G3", 35));
 //        tGroupList.add(new TutorialGroup("G4", 21));
+////    }
+//    public void displayTutorInfo() {
+//        for (int i = 0; i < tGroupList.getNumberOfEntries(); i++) {
+//            TutorialGroup tutorialGrp = tGroupList.getEntry(i);
+//            System.out.println(" " + tutorialGrp.getTutorialGroupName()
+//                    + " " + tGroupList.getEntry(i)
+//                    + " " + tGroupList.getEntry(i));
+//        }
 //    }
-    public void displayTutorInfo() {
-        for (int i = 0; i < tGroupList.getNumberOfEntries(); i++) {
-            TutorialGroup tutorialGrp = tGroupList.getEntry(i);
-            System.out.println(" " + tutorialGrp.getTutorialGroupName()
-                    + " " + tGroupList.getEntry(i)
-                    + " " + tGroupList.getEntry(i));
-        }
-    }
 
 //    public void displayCourseInfo() {
 //        for (int i = 0; i < cList.getNumberOfEntries(); i++) {
@@ -154,4 +105,5 @@ public class TutorInitializer {
 //        return pList;
 //    }
 }
+
 
