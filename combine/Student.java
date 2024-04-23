@@ -5,7 +5,7 @@ import java.util.Objects;
 
 /**
  *
- * @author Lee Weng Yan
+ * @author Lee Weng Yan, Low Jia Yu
  */
 public class Student implements Comparable<Student> {
 
@@ -17,7 +17,8 @@ public class Student implements Comparable<Student> {
     private String email;
     private String address;
     private SortedListInterface<RegisterCourse> registerCourseList = new SortedArrayList<>(); //one student, many register course [Store registered courses]
-
+    private SortedArrayList<TutorialGroup> tutorialGroups;
+    
      private Course course;
 
     public Student(Course course) {
@@ -35,6 +36,7 @@ public class Student implements Comparable<Student> {
         this.contactNo = contactNo;
         this.email = email;
         this.address = address;
+        this.tutorialGroups = new SortedArrayList<>();
     }
 
     public String getStudId() {
@@ -101,6 +103,24 @@ public class Student implements Comparable<Student> {
         this.registerCourseList = registerCourseList;
     }
 
+     public SortedListInterface<TutorialGroup> getTutorialGroups() {
+        return tutorialGroups;
+    }
+
+    // Getters and setters
+    public void setTutorialGroups(SortedArrayList<TutorialGroup> tutorialGroups) {    
+        this.tutorialGroups = tutorialGroups;
+    }
+
+    // Method to add a TutorialGrp to the programme
+    public void addTutorialGroup(TutorialGroup tutorialGrp) {
+        tutorialGroups.add(tutorialGrp);
+    }
+
+    public void removeTutorialGroup(TutorialGroup tutorialGrp) {
+        tutorialGroups.remove(tutorialGrp);
+    }
+    
     @Override
     public String toString() {
         return String.format("%-15s %-25s %-15s %-10s %-15s %-25s %-30s\n", studId, studName, ic, gender, contactNo, email, address);
@@ -124,4 +144,23 @@ public class Student implements Comparable<Student> {
         Student student = (Student) o;
         return Objects.equals(studId, student.studId);
     }
+
+         @Override
+    public int compareTo(Student otherStudent) {
+        // Compare based on studId or any other attribute that defines the natural order
+        return this.studId.compareTo(otherStudent.studId);
+    }
+
+ @Override
+public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Student student = (Student) o;
+    return Objects.equals(studId, student.studId);
+}
+
+@Override
+public int hashCode() {
+    return Objects.hash(studId);
+}
 }
