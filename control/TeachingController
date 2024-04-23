@@ -708,53 +708,69 @@ public class TeachingController {
         System.out.println("\n==================================================================");
     }
 
-    public Tutor findTutorById(String tutorId) {
-        SortedListInterface<Tutor> tutorList = ctI.getTutorList();
-        try {
-            if (tutorList == null || tutorList.isEmpty()) {
-                System.out.println("Tutor list is empty or not initialized.");
-                return null;
+    private Tutor findTutorById(String tutorId) {
+        for (int i = 0; i < tutorList.getNumberOfEntries(); i++) {
+            if (tutorList.getEntry(i).getTutorId().contains(tutorId.toUpperCase())) {
+                return tutorList.getEntry(i);
             }
-
-            for (int i = 0; i <= tutorList.getNumberOfEntries(); i++) {
-                Tutor tutor = tutorList.getEntry(i);
-
-                if (tutor == null) {
-                    System.out.println("Tutor at index " + i + " is null.");
-                    continue; // Move to the next iteration if tutor is null
-                }
-
-                if (tutor.getTutorId().equalsIgnoreCase(tutorId)) {
-                    return tutor;
-                }
-            }
-        } catch (NullPointerException ex) {
-            System.out.println("Error  :" + ex.getMessage());
         }
-
-        System.out.println("Tutor with ID " + tutorId + " not found.");
         return null;
     }
 
-    public Course findCourseByCode(String courseCode) {
-        try {
-            if (courseList == null || courseList.isEmpty()) {
-                System.out.println("Error: Course list is not initialized.");
-                return null;
+//    public Tutor findTutorById(String tutorId) {
+//        SortedListInterface<Tutor> tutorList = ctI.getTutorList();
+//        try {
+//            if (tutorList == null || tutorList.isEmpty()) {
+//                System.out.println("Tutor list is empty or not initialized.");
+//                return null;
+//            }
+//
+//            for (int i = 0; i <= tutorList.getNumberOfEntries(); i++) {
+//                Tutor tutor = tutorList.getEntry(i);
+//
+//                if (tutor == null) {
+//                    System.out.println("Tutor at index " + i + " is null.");
+//                    continue; // Move to the next iteration if tutor is null
+//                }
+//
+//                if (tutor.getTutorId().equalsIgnoreCase(tutorId)) {
+//                    return tutor;
+//                }
+//            }
+//        } catch (NullPointerException ex) {
+//            System.out.println("Error  :" + ex.getMessage());
+//        }
+//
+//        System.out.println("Tutor with ID " + tutorId + " not found.");
+//        return null;
+//    }
+    private Course findCourseByCode(String courseCode) {
+        for (int i = 0; i < courseList.getNumberOfEntries(); i++) {
+            if (courseList.getEntry(i).getCourseCode().equalsIgnoreCase(courseCode)) {
+                return courseList.getEntry(i);
             }
-            for (int i = 1; i <= courseList.getNumberOfEntries(); i++) {
-                Course course = courseList.getEntry(i);
-                if (course != null && course.getCourseCode().equalsIgnoreCase(courseCode)) {
-                    return course;
-                }
-            }
-
-        } catch (NullPointerException ex) {
-            System.out.println("Error : " + ex.getMessage());
         }
-        return null; // Return null if course not found
+        return null;
     }
 
+//    public Course findCourseByCode(String courseCode) {
+//        try {
+//            if (courseList == null || courseList.isEmpty()) {
+//                System.out.println("Error: Course list is not initialized.");
+//                return null;
+//            }
+//            for (int i = 1; i <= courseList.getNumberOfEntries(); i++) {
+//                Course course = courseList.getEntry(i);
+//                if (course != null && course.getCourseCode().equalsIgnoreCase(courseCode)) {
+//                    return course;
+//                }
+//            }
+//
+//        } catch (NullPointerException ex) {
+//            System.out.println("Error : " + ex.getMessage());
+//        }
+//        return null; // Return null if course not found
+//    }
     public Course findCourseByClassType(String classType) {
         try {
             if (courseList == null || courseList.isEmpty()) {
@@ -815,80 +831,55 @@ public class TeachingController {
         System.out.println("\nSearch Tutor Module");
         System.out.println("==========================================");
 
-        // Prompt for course code
-        System.out.print("Please Enter Course Code [Enter 0 to exit]: ");
-        String courseCode = scanner.nextLine().toUpperCase().trim();
-        // Allow user to exit the search
-        if (courseCode.equals("0")) {
-            System.out.println("Exiting search.");
-            return;
-        }
-        System.out.print("Please Enter Class Type [Enter 0 to exit]: ");
-        String classType = scanner.nextLine().toUpperCase().trim();
+        while (true) {
+            displayCourses();
+            System.out.print("Please Enter Course Code [Enter 0 to exit]: ");
+            String courseCode = scanner.nextLine().toUpperCase().trim();
 
-        if (classType.equals("0")) {
-            System.out.println("Exiting search.");
-            return;
-        }
-
-        Course selectedCourse = findCourseByCode(courseCode);
-        Course selectedClassType = findCourseByClassType(classType);
-
-        if (selectedCourse == null) {
-            System.out.println("Course not found. Please enter a valid Course Code.");
-            return;
-        }
-        if (selectedClassType == null) {
-            System.out.println("Class Type not found. Please enter a valid Course Code.");
-            return;
-        }
-
-        // Display course information
-        System.out.println("\nCourse Information : ");
-        System.out.println("===========================");
-        System.out.println("Course Code : " + selectedCourse.getCourseCode());
-        System.out.println("Course Name : " + selectedCourse.getCourseName());
-        System.out.println("Class Type : " + selectedClassType.getClassType());
-
-        System.out.print("Enter Tutor ID to search for: ");
-        String tutorId = scanner.nextLine().toUpperCase().trim();
-        boolean found = false;
-        for (Tutor tutor : selectedCourse.getTutor()) {
-            if (tutor.getTutorId().equals(tutorId)) {
-                System.out.println("\nTutor Found:");
-                System.out.println("Tutor ID: " + tutor.getTutorId());
-                System.out.println("Tutor Name: " + tutor.getTutorName());
-                found = true;
-                break;
+            // Allow user to exit the search
+            if (courseCode.equals("0")) {
+                System.out.println("Exiting search.");
+                return;
             }
-        }
-        displayTutorsHandlingCourse(selectedCourse);
-        if (!found) {
-            System.out.println("Tutor not found.");
-        }
-    }
 
-    private void displayTutorsHandlingCourse(Course course) {
-        SortedListInterface<Tutor> tutors = course.getTutor();
-
-        if (tutors.isEmpty()) {
-            System.out.println("This course is not handled by any tutor!");
-        } else {
-            System.out.println("\n\nTutors handling the course:");
-            System.out.println("=================================================================================");
-            System.out.printf("%-10s %-40s %-20s %-10s\n", "Tutor ID", "Tutor Name", "Email", "Gender");
-            System.out.println("=================================================================================");
-
-            for (int i = 0; i < tutors.getNumberOfEntries(); i++) {
-                Tutor tutor = tutors.getEntry(i);
-                // Assuming getTutorialGroups() returns a collection or count, and gender is stored as Character or String
-                System.out.printf("%-10s %-40s %-20s %-10s\n",
-                        tutor.getTutorId(),
-                        tutor.getTutorName(),
-                        tutor.getTutorEmail(),
-                        tutor.getTutorGender().toString()); // Adapt .toString() based on actual data type of tutorGender
+            Course selectedCourse = findCourseByCode(courseCode);
+            if (selectedCourse == null) {
+                System.out.println("Course not found. Please enter a valid Course Code.");
+                continue;
             }
-            System.out.println("=================================================================================");
+            displayTutor();
+            System.out.print("Please Enter Tutor ID or Name: ");
+            String tutorId = scanner.nextLine().toUpperCase().trim();
+
+            // Allow user to exit the search
+            if (tutorId.equals("0")) {
+                System.out.println("Exiting search.");
+                return;
+            }
+
+            Tutor selectedTutor = findTutorById(tutorId);
+            if (selectedTutor == null) {
+                // If tutor not found by ID, try searching by name
+                selectedTutor = findTutorById(tutorId);
+                if (selectedTutor == null) {
+                    System.out.println("Tutor not found. Please enter a valid Tutor ID or Name.");
+                    continue;
+                }
+            }
+
+            // Display course information
+            System.out.println("\nCourse Information : ");
+            System.out.println("===========================");
+            System.out.println("Course Code : " + selectedCourse.getCourseCode());
+            System.out.println("Course Name : " + selectedCourse.getCourseName());
+
+            // Display tutor information
+            System.out.println("\nTutor Information : ");
+            System.out.println("===========================");
+            System.out.println("Tutor ID: " + selectedTutor.getTutorId());
+            System.out.println("Tutor Name: " + selectedTutor.getTutorName());
+
+            displayCoursesHandledByTutor(selectedTutor);
         }
     }
 
@@ -914,7 +905,7 @@ public class TeachingController {
                 System.out.println("Tutor not found. Please enter a valid Tutor ID.");
             }
         }
-
+        displayCourses();
         // Prompt for course ID
         System.out.print("Enter Course Code/Name to search for: ");
         String courseSearch = scanner.nextLine().toUpperCase().trim();
@@ -925,7 +916,7 @@ public class TeachingController {
 
         boolean found = false;
         System.out.println("Courses assigned to tutor: " + selectedTutor.getTutorName());
-        for (Course course : selectedTutor.getCourse()) {
+        for (Course course : selectedTutor.getCourseList()) {
             if (course.getCourseCode().equals(courseSearch) || course.getCourseName().equalsIgnoreCase(courseSearch)) {
                 System.out.println("\nCourse Found:");
                 System.out.println("Course Name: " + course.getCourseName());
@@ -935,26 +926,30 @@ public class TeachingController {
             }
         }
 
-        if (!found) {
+        if (found == false) {
             System.out.println("Course not found.");
         }
         displayCoursesHandledByTutor(selectedTutor);
     }
 
     private void displayCoursesHandledByTutor(Tutor tutor) {
+        SortedListInterface<Course> coursesHandledByTutor = tutor.getCourseList();
         SortedListInterface<Course> courses = tutor.getCourse();
 
-        if (courses.isEmpty()) {
+        if (coursesHandledByTutor.isEmpty() && courses.isEmpty()) {
             System.out.println("This tutor has no courses assigned.");
         } else {
+            // Merge the two lists
+            SortedListInterface<Course> mergedCourses = mergeLists(coursesHandledByTutor, courses);
+
             System.out.println("\n\nCourses handled by the tutor:");
             System.out.println("================================================================================================================");
             System.out.printf("%-10s %-40s %-10s %-10s %-15s %-10s %-20s\n", "Course ID", "Course Name", "CourseType", "Semester", "Credit Hour", "Faculty", "Status");
             System.out.println("================================================================================================================");
 
             int count = 0;
-            for (int i = 0; i < courses.getNumberOfEntries(); i++) {
-                Course course = courses.getEntry(i);
+            for (int i = 0; i < mergedCourses.getNumberOfEntries(); i++) {
+                Course course = mergedCourses.getEntry(i);
                 course.setStatusT("valid");
                 System.out.printf("%-10s %-40s %-10s %-10s %-15s %-10s %-20s\n",
                         course.getCourseCode(),
@@ -966,9 +961,27 @@ public class TeachingController {
                 count++;
             }
             System.out.println("=================================================================================================================");
-            System.out.println("The total no of course found under a tutor : " + count);
+            System.out.println("The total number of courses found under a tutor: " + count);
         }
     }
+
+    private SortedListInterface<Course> mergeLists(SortedListInterface<Course> list1, SortedListInterface<Course> list2) {
+        SortedListInterface<Course> mergedList = new SortedArrayList<>(list1.getNumberOfEntries() + list2.getNumberOfEntries());
+        try {
+            for (int i = 0; i < list1.getNumberOfEntries(); i++) {
+                mergedList.add(list1.getEntry(i));
+            }
+
+            for (int i = 0; i < list2.getNumberOfEntries(); i++) {
+                mergedList.add(list2.getEntry(i));
+            }
+        } catch (NullPointerException ex) {
+            System.out.println("Error" + ex.getMessage());
+        }
+
+        return mergedList;
+    }
+
 
     public void listing() {
         while (true) {
@@ -1036,22 +1049,7 @@ public class TeachingController {
 
             // Get the tutor list for the current course
             SortedListInterface<Tutor> tutorList = course.getTutorList();
-//
-//        if (tutorList != null) { // Check if tutor list is not null
-//            Iterator<Tutor> tutorIterator = tutorList.iterator();
-//            while (tutorIterator.hasNext()) {
-//                Tutor tutor = tutorIterator.next();
-//                tutor.setStatus("Valid");
-//                if (tutorIds.length() > 0) {
-//                    tutorIds.append(", ");
-//                    tutorNames.append(", ");
-//                }
-//                tutorIds.append(tutor.getTutorId());
-//                tutorNames.append(tutor.getTutorName());
-//            }
-//        } else {
-//            // Handle case where tutorList is null (if needed)
-//        }
+
             course.setStatusT("Valid");
             System.out.printf("%-10s %-20s %-10s %-15s %-25s %-20s\n", courseCode, courseName, classType, semester, faculty, course.getStatusT());
         }
@@ -1086,7 +1084,7 @@ public class TeachingController {
             System.out.println("No tutors found.");
             return;
         }
-;
+        ;
         System.out.println("Tutor Details:");
         System.out.println("--------------------------------------------------");
         int count = 0;
@@ -1149,24 +1147,6 @@ public class TeachingController {
         return false;
     }
 
-//    private boolean courseExistsInStringBuilder(StringBuilder stringBuilder, String courseName) {
-//        int start = 0;
-//        int end = 0;
-//        while (end != -1) {
-//            end = stringBuilder.indexOf(", ", start);
-//            String currentCourse;
-//            if (end == -1) {
-//                currentCourse = stringBuilder.substring(start);
-//            } else {
-//                currentCourse = stringBuilder.substring(start, end);
-//            }
-//            if (currentCourse.equals(courseName)) {
-//                return true;
-//            }
-//            start = end + 2; // Move the start index to the next course
-//        }
-//        return false;
-//    }
     public void listTutorsAndTutorialGroupsForCourse(String courseCode) {
         Course selectedCourse = findCourseByCode(courseCode);
         if (selectedCourse == null) {
@@ -1354,156 +1334,6 @@ public class TeachingController {
         tGroupList = tgI.getTutorialGrpList();
     }
 
-// public void generateReport() {
-//    refreshData(); // Ensure data is up to date
-//
-//    System.out.println("\nReport Summary:");
-//    System.out.println("======================================");
-//
-//    // Display total number of tutors
-//    System.out.println("Total Number of Tutors: " + tutorList.getNumberOfEntries());
-//
-//    // Display total number of courses
-//    System.out.println("Total Number of Courses: " + courseList.getNumberOfEntries());
-//
-//    // Display total number of tutorial groups
-//    System.out.println("Total Number of Tutorial Groups: " + tGroupList.getNumberOfEntries());
-//
-//    // Display detailed assignments of tutors to courses and tutorial groups
-//    System.out.println("\nDetailed Assignments:");
-//    System.out.println("==================================================================");
-//
-//    // Iterate over each course and list assigned tutors
-//    for (int i = 1; i <= courseList.getNumberOfEntries(); i++) {
-//        Course course = courseList.getEntry(i);
-//        System.out.println("Course: " + course.getCourseName() + " (Code: " + course.getCourseCode() + ")");
-//        if (!course.getTutor().isEmpty()) {
-//            System.out.println("Assigned Tutors:");
-//            for (Tutor tutor : course.getTutor()) {
-//                System.out.println("  - " + tutor.getTutorName() + " (ID: " + tutor.getTutorId() + ")");
-//            }
-//        } else {
-//            System.out.println("  No tutors assigned.");
-//        }
-//    }
-//
-//    // Iterate over each tutorial group and list assigned tutors
-//    System.out.println("\nTutorial Groups and Assigned Tutors:");
-//    for (int i = 1; i <= tGroupList.getNumberOfEntries(); i++) {
-//        TutorialGroup tGroup = tGroupList.getEntry(i);
-//        System.out.println("Tutorial Group: " + tGroup.getTutorialGroupName());
-//        if (!tGroup.getTutor().isEmpty()) {
-//            System.out.println("Assigned Tutors:");
-//            for (Tutor tutor : tGroup.getTutor()) {
-//                System.out.println("  - " + tutor.getTutorName() + " (ID: " + tutor.getTutorId() + ")");
-//            }
-//        } else {
-//            System.out.println("  No tutors assigned.");
-//        }
-//    }
-//}
-//    
-//    public void generateReport() {
-//        refreshData(); // Make sure the data is the latest
-//
-//        Tutor maxTutor = null;
-//        Course maxCourse = null;
-//        int maxGroups = 0;
-//        int maxTutors = 0;
-//
-//        if (tutorList.isEmpty()) {
-//            System.out.println("No tutors found. Please add tutors first.");
-//            return;
-//        }
-//
-//        if (courseList.isEmpty()) {
-//            System.out.println("No courses found. Please add courses first.");
-//            return;
-//        }
-//
-//        // Find tutor(s) with the maximum number of groups
-//        Iterator<Tutor> tutorIterator = tutorList.iterator();
-//        while (tutorIterator.hasNext()) {
-//            Tutor tutor = tutorIterator.next();
-//            int groupCount = tutor.getTutorialGroupList().getNumberOfEntries();
-//            if (groupCount > maxGroups) {
-//                maxGroups = groupCount;
-//                maxTutor = tutor;
-//            }
-//        }
-//
-//        // Find course(s) with the maximum number of tutors
-//        Iterator<Course> courseIterator = courseList.iterator();
-//        while (courseIterator.hasNext()) {
-//            Course course = courseIterator.next();
-//            int tutorCount = course.getTutor().getNumberOfEntries();
-//            if (tutorCount > maxTutors) {
-//                maxTutors = tutorCount;
-//                maxCourse = course;
-//            }
-//        }
-//
-//        System.out.println("\nReport:");
-//        System.out.println("======================================");
-//
-//        if (maxTutor != null) {
-//            System.out.println("Tutor(s) with most groups (" + maxGroups + " groups):");
-//            tutorIterator = tutorList.iterator(); // Reset iterator
-//            while (tutorIterator.hasNext()) {
-//                Tutor tutor = tutorIterator.next();
-//                int groupCount = tutor.getTutorialGroupList().getNumberOfEntries();
-//                if (groupCount == maxGroups) {
-//                    System.out.println("- " + tutor.getTutorName());
-//                }
-//            }
-//        } else {
-//            System.out.println("No tutor has been assigned to any groups.");
-//        }
-//
-//        if (maxCourse != null) {
-//            System.out.println("Course with most tutors (" + maxTutors + " tutors): " + maxCourse.getCourseName());
-//        } else {
-//            System.out.println("No tutors assigned to any course.");
-//        }
-//    }
-//  public void generateReport() {
-//    refreshData(); // Assumed to reload or update the lists from the data source
-//
-//    if (tutorList.isEmpty()) {
-//        System.out.println("No tutors found. Please add tutors first.");
-//        return;
-//    }
-//
-//    if (courseList.isEmpty()) {
-//        System.out.println("No courses found. Please add courses first.");
-//        return;
-//    }
-//
-//    Course maxCourse = findCourseWithMostTutors();
-//    Tutor maxTutor = findTutorWithMostGroups();
-//    TutorialGroup tutorialGroupWithNoTutor = findTutorialGroupWithNoTutor();
-//
-//    System.out.println("\nReport:");
-//    System.out.println("======================================");
-//
-//    if (maxTutor != null) {
-//        System.out.println("Tutor with most groups (" + maxTutor.getTutorialGroupList().getNumberOfEntries() + " groups): " + maxTutor.getTutorialGroups());
-//    } else {
-//        System.out.println("No tutor has been assigned to any groups.");
-//    }
-//
-//    if (maxCourse != null) {
-//        System.out.println("Course with most tutors (" + maxCourse.getTutor().getNumberOfEntries() + " tutors): " + maxCourse.getCourseName());
-//    } else {
-//        System.out.println("No tutors assigned to any course.");
-//    }
-//
-//    if (tutorialGroupWithNoTutor != null) {
-//        System.out.println("Tutorial group(s) with no assigned tutors: " + tutorialGroupWithNoTutor.getTutorialGroupName());
-//    } else {
-//        System.out.println("All tutorial groups have assigned tutors.");
-//    }
-//}
     private Course findCourseWithMostTutors() {
         courseList = cI.getcList();  // Ensure you're working with the latest data
         Course maxCourse = null;
@@ -1728,4 +1558,3 @@ public class TeachingController {
 
     }
 }
-
